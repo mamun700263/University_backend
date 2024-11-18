@@ -48,9 +48,23 @@ class Account(models.Model):
         raise NotImplementedError("Subclasses should implement this method.")
 
 
+
+
+
+
+
 class StudentAccount(Account):
     """
     this function will create an unique id for each student . the first 2 characters (ST )denote that it is the uid of strudent 
+    """
+    """
+    department
+    batch
+    section
+    student_id
+    cgpa
+    previoush cgpas
+
     """
     def generate_unique_id(self):
         return f"ST-{uuid.uuid4().hex[:8].upper()}"
@@ -58,6 +72,11 @@ class StudentAccount(Account):
 class TeacherAccount(Account):
     def generate_unique_id(self):
         return f"TE-{uuid.uuid4().hex[:8].upper()}"
+
+class DepartmentHeadAccount(Account):
+    def generate_unique_id(self):
+        return f"TE-{uuid.uuid4().hex[:8].upper()}"
+
 class StaffAccount(Account):
     def generate_unique_id(self):
         return f"OF-{uuid.uuid4().hex[:8].upper()}"
