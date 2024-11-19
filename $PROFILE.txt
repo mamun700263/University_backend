@@ -1,0 +1,1 @@
+Set-Alias activate_university_backend "G:\projects\university\University_backend\University_backend\venv\Scripts\activate"
