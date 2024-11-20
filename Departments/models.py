@@ -12,5 +12,5 @@ class Batch(models.Model):
     batch_number = models.IntegerField(unique=True)
     start_date = models.DateTimeField( auto_now=False, auto_now_add=False)
     end_date = models.DateTimeField( auto_now=False, auto_now_add=False)
-    total_students = models.IntegerField(defalut=0)
+    total_students = models.IntegerField()
 

@@ -37,9 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+#apps downloded
     'rest_framework', 
+#apps created by md abdullah all mamun
     'Accounts',
     'Departments',
+    'university',
 ]
 
 MIDDLEWARE = [
