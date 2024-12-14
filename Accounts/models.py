@@ -64,18 +64,16 @@ class StudentAccount(Account):
     student_id
     cgpa
     previoush cgpas
-
     """
+    Class_Representetive = models.BooleanField(default=False)
     def generate_unique_id(self):
         return f"ST-{uuid.uuid4().hex[:8].upper()}"
 
 class TeacherAccount(Account):
+    Department_head = models.BooleanField(default=False)
     def generate_unique_id(self):
         return f"TE-{uuid.uuid4().hex[:8].upper()}"
 
-class DepartmentHeadAccount(Account):
-    def generate_unique_id(self):
-        return f"TE-{uuid.uuid4().hex[:8].upper()}"
 
 class StaffAccount(Account):
     def generate_unique_id(self):
