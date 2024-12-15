@@ -1,6 +1,5 @@
+from django.utils import timezone
 from django.db import models
-from Departments.models import Department
-from Accounts.models import AuthorityAccount
 
 class University(models.Model):
     """
