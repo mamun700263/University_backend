@@ -1,9 +1,20 @@
 from django.db import models
 from Departments.models import Department
-# Create your models here.
+from Accounts.models import AuthorityAccount
 
 class University(models.Model):
+    """
+    Represents a university with its departments and leadership.
+    """
+    name = models.CharField(max_length=100, unique=True)
+    starting_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)  # Automatically adds timestamp
+    updated_at = models.DateTimeField(auto_now=True)  # Updates on save
 
-    name = models.CharField(max_length=50)
-    departments = models.maToManyField("app.Model", verbose_name=(""))
-    
+    class Meta:
+        verbose_name = "University"
+        verbose_name_plural = "Universities"
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name  # Displays the university name as a string
