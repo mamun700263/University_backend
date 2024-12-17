@@ -57,7 +57,7 @@ class Batch(models.Model):
     department = models.ForeignKey(Department, verbose_name="Department", on_delete=models.CASCADE,default=1)
     batch_number = models.IntegerField()  # Remove `unique=True` if using the unique constraint below.
     start_date = models.DateField(null=False, blank = False)
-    end_date = models.DateField()
+    end_date = models.DateField(editable=False) 
     total_students = models.IntegerField()
 
     class Meta:
@@ -65,6 +65,12 @@ class Batch(models.Model):
         verbose_name_plural = "Batches"
         ordering = ['start_date']
         unique_together = ('department', 'batch_number')  # Ensure unique batch numbers per department.
-
+    def save(self, *args, **kwargs):
+        """
+        Automatically set the end_date to exactly 4 years after the start_date.
+        """
+        if self.start_date:  # Ensure start_date is set before calculating end_date
+            self.end_date = self.start_date.replace(year=self.start_date.year + 4)
+        super().save(*args, **kwargs)
     def __str__(self):
         return f"Batch {self.batch_number} ({self.department.name})"
