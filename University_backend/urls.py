@@ -18,8 +18,10 @@ from django.contrib import admin
 from django.urls import path,include
 from Accounts import urls
 from Departments import urls
+from university import urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/',include(urls)),
     path('departments/',include(urls)),
+    path('university/',include(urls)),
 ]

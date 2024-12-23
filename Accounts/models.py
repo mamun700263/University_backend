@@ -1,7 +1,10 @@
 from django.contrib.auth.models import User
 from django.db import models
 import uuid
-
+from django.utils import timezone
+from datetime import date
+# from Departments.models import Batch
+# from Departments.models import Department
 class Account(models.Model):
     """
     This Account class is the base of all accounts 
@@ -14,7 +17,12 @@ class Account(models.Model):
     profile_picture = if the user gives a profile else there will be default profile photo
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='account')
-    date_of_birth = models.DateField(blank=True, null=True)
+    username = models.CharField(max_length=50,unique=True,default="username")
+    email = models.EmailField(null=False,blank=False,default="user@gmail.com")
+    first_name = models.CharField(max_length=50,null=False,blank=False,default="name")
+    last_name = models.CharField(max_length=50,null=False,blank=False,default="name")
+    
+    date_of_birth = models.DateField(blank=True, null=True,default=date(1000,1,1))
     unique_id = models.CharField(unique=True,  max_length=11,null=True,blank=True)
     bio = models.TextField(blank=True, null=True)
     mobile = models.CharField(max_length=11, blank=True, null=True)
@@ -56,8 +64,7 @@ class Account(models.Model):
 class StudentAccount(Account):
     """
     this function will create an unique id for each student . the first 2 characters (ST )denote that it is the uid of strudent 
-    """
-    """
+
     department
     batch
     section
@@ -66,6 +73,7 @@ class StudentAccount(Account):
     previoush cgpas
     """
     Class_Representetive = models.BooleanField(default=False)
+    batch = models.ForeignKey("Departments.Batch", verbose_name="Batch", on_delete=models.CASCADE)
     def generate_unique_id(self):
         return f"ST-{uuid.uuid4().hex[:8].upper()}"
 

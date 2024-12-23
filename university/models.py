@@ -6,8 +6,13 @@ class University(models.Model):
     Represents a university with its departments and leadership.
     """
     name = models.CharField(max_length=100, unique=True)
+<<<<<<< HEAD
     starting_date = models.DateField()
     created_at = models.DateField(auto_now_add=True)  # Automatically adds timestamp
+=======
+    starting_date = models.DateField(auto_now=True)
+    established_date = models.DateField(blank=False,null=False)  # Automatically adds timestamp
+>>>>>>> Departments-app
     updated_at = models.DateTimeField(auto_now=True)  # Updates on save
 
     class Meta:
