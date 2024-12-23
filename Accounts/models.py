@@ -3,6 +3,8 @@ from django.db import models
 import uuid
 from django.utils import timezone
 from datetime import date
+# from Departments.models import Batch
+# from Departments.models import Department
 class Account(models.Model):
     """
     This Account class is the base of all accounts 
@@ -71,6 +73,7 @@ class StudentAccount(Account):
     previoush cgpas
     """
     Class_Representetive = models.BooleanField(default=False)
+    batch = models.ForeignKey("Departments.Batch", verbose_name="Batch", on_delete=models.CASCADE)
     def generate_unique_id(self):
         return f"ST-{uuid.uuid4().hex[:8].upper()}"
 

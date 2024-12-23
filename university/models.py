@@ -7,7 +7,7 @@ class University(models.Model):
     """
     name = models.CharField(max_length=100, unique=True)
     starting_date = models.DateField(auto_now=True)
-    created_at = models.DateField(blank=False,null=False)  # Automatically adds timestamp
+    established_date = models.DateField(blank=False,null=False)  # Automatically adds timestamp
     updated_at = models.DateTimeField(auto_now=True)  # Updates on save
 
     class Meta:

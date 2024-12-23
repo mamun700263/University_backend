@@ -18,7 +18,7 @@ class Department(models.Model):
     name = models.CharField(max_length=50, unique=True)
     university = models.ForeignKey(University, verbose_name="University", on_delete=models.CASCADE,default=1)
     department_head = models.OneToOneField(
-        TeacherAccount,
+        "Accounts.TeacherAccount",
         verbose_name="Department Head",
         on_delete=models.SET_NULL,  # Prevent department deletion if the head is deleted.
         null=True,
