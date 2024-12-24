@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import UniversityViewSet
+from .views import UniversityAPIView
+from .views import UniversityModifyView
 urlpatterns = [
-    path('universiy/', UniversityViewSet.as_view(), name='university'),
+    path('universiy_api/', UniversityAPIView.as_view(), name='university'),
+    path('universiy_modify_api/<int:id>/', UniversityModifyView.as_view(), name='university_modify_api'),
 ]

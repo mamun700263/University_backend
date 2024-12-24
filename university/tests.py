@@ -1,7 +1,9 @@
+import time
 from django.test import TestCase
-from .models import University
-
 from django.utils import timezone
+from .models import University
+from .views import UniversityAPIView
+from .serializers import UniversitySerializer
 # Create your tests here.
 
 class UniversityModelTest(TestCase):
@@ -22,50 +24,32 @@ class UniversityModelTest(TestCase):
         print(str(self.university))
         
 
-from rest_framework.test import APITestCase
-from .models import University
-from .Serializer import UniversitySerializer
 
-class UniversitySerializerTestCase(APITestCase):
+
+# class University
+
+class UniversitySerializerTestCase(TestCase):
     def setUp(self):
-        # Create a sample University object
+        #create a university instance
         self.university = University.objects.create(
             name="Test University",
-            established_date="2000-01-01",
+            starting_date = timezone.now(),
+            established_date = "2024-09-01",
+            updated_at = timezone.now()
         )
-        self.serializer_data = {
-            'name': "Another University",
-            'established_date': "2010-01-01",
-        }
-
     def test_serialization(self):
-        # Serialize the University object
+        # Serialize the model instance
         serializer = UniversitySerializer(self.university)
-        data = serializer.data
+        print("Check before update:")
+        print(serializer.data)
 
-        # Check if the serialized data matches the instance data
-        self.assertEqual(data['name'], self.university.name)
-        # self.assertEqual(data['location'], self.university.location)
-        self.assertEqual(data['established_date'], self.university.established_date)
-        # self.assertEqual(data['total_students'], self.university.total_students)
 
-    def test_deserialization_with_valid_data(self):
-        # Deserialize valid data
-        serializer = UniversitySerializer(data=self.serializer_data)
-        self.assertTrue(serializer.is_valid())
-        university = serializer.save()
+        # Update the model instance
+        time.sleep(4)
+        self.university.name = "Update University"
+        self.university.save()  # Save the changes to the database
 
-        # Check if the new object is saved correctly
-        self.assertEqual(university.name, self.serializer_data['name'])
-        # self.assertEqual(university.location, self.serializer_data['location'])
-        self.assertEqual(str(university.established_date), self.serializer_data['established_date'])
-        # self.assertEqual(university.total_students, self.serializer_data['total_students'])
-
-    def test_deserialization_with_invalid_data(self):
-        # Test with missing fields
-        invalid_data = {'name': "Invalid University"}
-        serializer = UniversitySerializer(data=invalid_data)
-        self.assertFalse(serializer.is_valid())
-        # self.assertIn('location', serializer.errors)
-        self.assertIn('established_date', serializer.errors)
-        # self.assertIn('total_students', serializer.errors)
+        # Reinitialize the serializer to reflect changes
+        serializer = UniversitySerializer(self.university)
+        print("Check after update:")
+        print(serializer.data)

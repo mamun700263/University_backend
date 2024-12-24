@@ -5,4 +5,7 @@ class UniversitySerializer(serializers.ModelSerializer):
     class Meta:
         model = University
         fields = '__all__'
+    
+        print("model")
+
 
