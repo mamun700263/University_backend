@@ -1,3 +1,34 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
+from .models import Account, StudentAccount, TeacherAccount, StaffAccount, AuthorityAccount
+from .serializers import (
+    AccountSerializer,
+    StudentAccountSerializer,
+    TeacherAccountSerializer,
+    StaffAccountSerializer,
+    AuthorityAccountSerializer,
+)
 
-# Create your views here.
+
+class AccountViewSet(ModelViewSet):
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
+
+
+class StudentAccountViewSet(ModelViewSet):
+    queryset = StudentAccount.objects.all()
+    serializer_class = StudentAccountSerializer
+
+
+class TeacherAccountViewSet(ModelViewSet):
+    queryset = TeacherAccount.objects.all()
+    serializer_class = TeacherAccountSerializer
+
+
+class StaffAccountViewSet(ModelViewSet):
+    queryset = StaffAccount.objects.all()
+    serializer_class = StaffAccountSerializer
+
+
+class AuthorityAccountViewSet(ModelViewSet):
+    queryset = AuthorityAccount.objects.all()
+    serializer_class = AuthorityAccountSerializer
