@@ -43,6 +43,8 @@ class Department(models.Model):
         Assumes a related `Student` model with a foreign key to `Department`.
         """
         return self.students.count()  # Replace `students` with the related name in the Student model.
+    
+    
 class Batch(models.Model):
     """
     Represents a batch within a department.

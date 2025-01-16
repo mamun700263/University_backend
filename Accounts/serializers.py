@@ -1,24 +1,33 @@
-from rest_framework import serializers
-from .models import Account, StudentAccount, TeacherAccount, StaffAccount, AuthorityAccount
-
 from django.contrib.auth.models import User
+from rest_framework import serializers
+
+from .models import (Account, AuthorityAccount, StaffAccount, StudentAccount,
+                     TeacherAccount)
+
 
 class UserSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'password', 'confirm_password']
+        fields = [
+                'id', 'username',
+                'email', 'first_name',
+                'last_name', 'password',
+                'confirm_password'
+                ]
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate(self, data):
         if data['password'] != data['confirm_password']:
-            raise serializers.ValidationError({"confirm_password": "Passwords do not match."})
+            raise serializers.ValidationError(
+                {"confirm_password": "Passwords do not match."}
+                )
         return data
 
     def create(self, validated_data):
-        validated_data.pop('confirm_password')  # Remove confirm_password after validation
-        print(validated_data,"****************************")
+        validated_data.pop('confirm_password')
+        # Remove confirm_password after validation
         user = User.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
@@ -29,8 +38,8 @@ class UserSerializer(serializers.ModelSerializer):
         user.is_active = False  # Default inactive status
         user.save()
         return user
-    
-    
+
+
 class AccountSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 

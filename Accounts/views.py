@@ -1,12 +1,10 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Account, StudentAccount, TeacherAccount, StaffAccount, AuthorityAccount
-from .serializers import (
-    AccountSerializer,
-    StudentAccountSerializer,
-    TeacherAccountSerializer,
-    StaffAccountSerializer,
-    AuthorityAccountSerializer,
-)
+
+from .models import (Account, AuthorityAccount, StaffAccount, StudentAccount,
+                     TeacherAccount)
+from .serializers import (AccountSerializer, AuthorityAccountSerializer,
+                          StaffAccountSerializer, StudentAccountSerializer,
+                          TeacherAccountSerializer)
 
 
 class AccountViewSet(ModelViewSet):
