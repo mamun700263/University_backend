@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 #apps downloded
     'rest_framework', 
+    'rest_framework.authtoken',
 #apps created by md abdullah all mamun
     'Accounts',
     'Departments',
