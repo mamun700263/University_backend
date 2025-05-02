@@ -1,34 +1,37 @@
 from django.utils import timezone
 from django.test import TestCase
-from .models import Department, University, TeacherAccount, Student  # Assuming Student model exists
+from .models import (
+    Department,
+    University,
+    TeacherAccount,
+    Student,
+)  # Assuming Student model exists
+
 
 class DepartmentsModelTest(TestCase):
     """Test case for Department model"""
-    
+
     def setUp(self):
         """
         Set up test data for the Department model.
         """
         # Create a university instance
         self.university = University.objects.create(
-            name="Sample University", 
-            starting_date=timezone.now().date()
+            name="Sample University", starting_date=timezone.now().date()
         )
 
         # Create a TeacherAccount instance (assuming TeacherAccount exists)
         self.teacher = TeacherAccount.objects.create(
-            username="teacher1", 
-            password="password", 
-            email="teacher1@example.com"
+            username="teacher1", password="password", email="teacher1@example.com"
         )
-        
+
         # Create a Department instance
         self.department = Department.objects.create(
-            name="Computer Science", 
+            name="Computer Science",
             university=self.university,
             department_head=self.teacher,
-            total_students=100, 
-            created_at=timezone.now().date()
+            total_students=100,
+            created_at=timezone.now().date(),
         )
 
     def test_department_creation(self):
@@ -49,18 +52,18 @@ class DepartmentsModelTest(TestCase):
         # Create some Student instances for this department
         Student.objects.create(department=self.department, name="Student 1")
         Student.objects.create(department=self.department, name="Student 2")
-        
+
         # Now check the student count
         self.assertEqual(self.department.student_count, 2)
 
     def test_department_head_null(self):
         """Test if department head can be null."""
         department_without_head = Department.objects.create(
-            name="Mathematics", 
+            name="Mathematics",
             university=self.university,
-            department_head=None, 
-            total_students=50, 
-            created_at=timezone.now().date()
+            department_head=None,
+            total_students=50,
+            created_at=timezone.now().date(),
         )
         self.assertIsNone(department_without_head.department_head)
 
@@ -74,4 +77,3 @@ class DepartmentsModelTest(TestCase):
         updated_department = Department.objects.get(id=self.department.id)
         self.assertEqual(updated_department.name, "Electrical Engineering")
         self.assertEqual(updated_department.total_students, 200)
-

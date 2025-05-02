@@ -6,21 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Accounts', '0002_departmentheadaccount'),
+        ("Accounts", "0002_departmentheadaccount"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='studentaccount',
-            name='Class_Representetive',
+            model_name="studentaccount",
+            name="Class_Representetive",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='teacheraccount',
-            name='Department_head',
+            model_name="teacheraccount",
+            name="Department_head",
             field=models.BooleanField(default=False),
         ),
         migrations.DeleteModel(
-            name='DepartmentHeadAccount',
+            name="DepartmentHeadAccount",
         ),
     ]

@@ -15,43 +15,108 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Account',
+            name="Account",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_of_birth', models.DateField(blank=True, null=True)),
-                ('unique_id', models.CharField(blank=True, max_length=11, null=True, unique=True)),
-                ('bio', models.TextField(blank=True, null=True)),
-                ('mobile', models.CharField(blank=True, max_length=11, null=True)),
-                ('profile_picture', models.URLField(blank=True, default='https://i.ibb.co.com/zHJyw5w/User-Profile-PNG-Clipart.png', null=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='account', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date_of_birth", models.DateField(blank=True, null=True)),
+                (
+                    "unique_id",
+                    models.CharField(blank=True, max_length=11, null=True, unique=True),
+                ),
+                ("bio", models.TextField(blank=True, null=True)),
+                ("mobile", models.CharField(blank=True, max_length=11, null=True)),
+                (
+                    "profile_picture",
+                    models.URLField(
+                        blank=True,
+                        default="https://i.ibb.co.com/zHJyw5w/User-Profile-PNG-Clipart.png",
+                        null=True,
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="account",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='AuthorityAccount',
+            name="AuthorityAccount",
             fields=[
-                ('account_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='Accounts.account')),
+                (
+                    "account_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="Accounts.account",
+                    ),
+                ),
             ],
-            bases=('Accounts.account',),
+            bases=("Accounts.account",),
         ),
         migrations.CreateModel(
-            name='StaffAccount',
+            name="StaffAccount",
             fields=[
-                ('account_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='Accounts.account')),
+                (
+                    "account_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="Accounts.account",
+                    ),
+                ),
             ],
-            bases=('Accounts.account',),
+            bases=("Accounts.account",),
         ),
         migrations.CreateModel(
-            name='StudentAccount',
+            name="StudentAccount",
             fields=[
-                ('account_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='Accounts.account')),
+                (
+                    "account_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="Accounts.account",
+                    ),
+                ),
             ],
-            bases=('Accounts.account',),
+            bases=("Accounts.account",),
         ),
         migrations.CreateModel(
-            name='TeacherAccount',
+            name="TeacherAccount",
             fields=[
-                ('account_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='Accounts.account')),
+                (
+                    "account_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="Accounts.account",
+                    ),
+                ),
             ],
-            bases=('Accounts.account',),
+            bases=("Accounts.account",),
         ),
     ]

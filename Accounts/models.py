@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
 
+# from Departments.models import Batch
+
 
 class Account(models.Model):
     """
@@ -11,17 +13,24 @@ class Account(models.Model):
     """
 
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE,
+        User,
+        on_delete=models.CASCADE,
         related_name="account"
         )
-    date_of_birth = models.DateField(blank=True, null=True)
+    date_of_birth = models.DateField(
+        blank=True,
+        null=True
+        )
     unique_id = models.CharField(
         unique=True,
         max_length=11,
         null=True,
         blank=True
         )
-    bio = models.TextField(blank=True, null=True)
+    bio = models.TextField(
+        blank=True,
+        null=True
+        )
     mobile = models.CharField(
         max_length=11,
         blank=True,
@@ -44,18 +53,12 @@ class Account(models.Model):
         return self.user.username
 
     def save(self, *args, **kwargs):
-        print("********************")
         if not self.unique_id:
             self.unique_id = self.generate_unique_id()
         super().save(*args, **kwargs)
 
-    # def generate_unique_id(self):
-    #     """
-    #     Subclasses will implement this method to generate unique IDs.
-    #     """
-    #     raise NotImplementedError("Subclasses should implement this method.")
-    def generate_unique_id(self):
-        return f"ST-{uuid.uuid4().hex[:8].upper()}"
+    def generate_unique_id(self, prefix, suffix):
+        return f"{prefix}{uuid.uuid4().hex[:8].upper()}"
 
 
 class StudentAccount(Account):
@@ -63,13 +66,23 @@ class StudentAccount(Account):
     Student account with a unique ID format.
     """
 
-    Class_Representetive = models.BooleanField(default=False)
+    Class_Representetive = models.BooleanField(
+        default=False
+        )
     batch = models.ForeignKey(
-        "Departments.Batch", verbose_name="Batch", on_delete=models.CASCADE
+        "Departments.Batch",
+        verbose_name="Batch",
+        on_delete=models.CASCADE
     )
 
     def generate_unique_id(self):
-        return f"ST-{uuid.uuid4().hex[:8].upper()}"
+        self.batch.total_students += 1
+        self.batch.save()
+        return Account.generate_unique_id(
+            self,
+            'ST',
+            str(self.batch.total_students)
+            )
 
 
 class TeacherAccount(Account):
@@ -87,6 +100,13 @@ class StaffAccount(Account):
     """
     Staff account with a unique ID format.
     """
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None  # Check if the student is new
+        super().save(*args, **kwargs)  # Save the student first
+        if is_new:  # Increment count only for new students
+            self.batch.student_count += 1
+            self.batch.save()
 
     def generate_unique_id(self):
         return f"OF-{uuid.uuid4().hex[:8].upper()}"

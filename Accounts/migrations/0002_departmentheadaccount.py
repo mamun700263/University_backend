@@ -7,15 +7,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Accounts', '0001_initial'),
+        ("Accounts", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DepartmentHeadAccount',
+            name="DepartmentHeadAccount",
             fields=[
-                ('account_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='Accounts.account')),
+                (
+                    "account_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="Accounts.account",
+                    ),
+                ),
             ],
-            bases=('Accounts.account',),
+            bases=("Accounts.account",),
         ),
     ]
