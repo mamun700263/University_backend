@@ -77,3 +77,4 @@ class DepartmentsModelTest(TestCase):
         updated_department = Department.objects.get(id=self.department.id)
         self.assertEqual(updated_department.name, "Electrical Engineering")
         self.assertEqual(updated_department.total_students, 200)
+# trisha
