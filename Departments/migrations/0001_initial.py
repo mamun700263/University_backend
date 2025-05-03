@@ -10,43 +10,84 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('Accounts', '0003_studentaccount_class_representetive_and_more'),
-        ('university', '0001_initial'),
+        ("Accounts", "0003_studentaccount_class_representetive_and_more"),
+        ("university", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Department',
+            name="Department",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-                ('total_students', models.PositiveIntegerField(default=0)),
-                ('created_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('department_head', models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='Accounts.teacheraccount', verbose_name='Department Head')),
-                ('university', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='university.university', verbose_name='University')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50, unique=True)),
+                ("total_students", models.PositiveIntegerField(default=0)),
+                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "department_head",
+                    models.OneToOneField(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="Accounts.teacheraccount",
+                        verbose_name="Department Head",
+                    ),
+                ),
+                (
+                    "university",
+                    models.ForeignKey(
+                        default=1,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="university.university",
+                        verbose_name="University",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Department',
-                'verbose_name_plural': 'Departments',
-                'ordering': ['name'],
+                "verbose_name": "Department",
+                "verbose_name_plural": "Departments",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Batch',
+            name="Batch",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('batch_number', models.IntegerField()),
-                ('start_date', models.DateTimeField()),
-                ('end_date', models.DateTimeField()),
-                ('total_students', models.IntegerField()),
-                ('department', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='Departments.department', verbose_name='Department')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("batch_number", models.IntegerField()),
+                ("start_date", models.DateTimeField()),
+                ("end_date", models.DateTimeField()),
+                ("total_students", models.IntegerField()),
+                (
+                    "department",
+                    models.ForeignKey(
+                        default=1,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="Departments.department",
+                        verbose_name="Department",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Batch',
-                'verbose_name_plural': 'Batches',
-                'ordering': ['start_date'],
-                'unique_together': {('department', 'batch_number')},
+                "verbose_name": "Batch",
+                "verbose_name_plural": "Batches",
+                "ordering": ["start_date"],
+                "unique_together": {("department", "batch_number")},
             },
         ),
     ]

@@ -12,25 +12,12 @@ class Account(models.Model):
     Base Account class for all user accounts.
     """
 
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name="account"
-        )
-    date_of_birth = models.DateField(
-        blank=True,
-        null=True
-        )
-    unique_id = models.CharField(
-        unique=True,
-        max_length=11,
-        null=True,
-        blank=True
-        )
-    bio = models.TextField(
-        blank=True,
-        null=True
-        )
+    user = models.OneToOneField(User, on_delete=models.CASCADE,
+                                related_name="account")
+    date_of_birth = models.DateField(blank=True, null=True)
+    unique_id = models.CharField(unique=True,
+                                 max_length=11, null=True, blank=True)
+    bio = models.TextField(blank=True, null=True)
     mobile = models.CharField(
         max_length=11,
         blank=True,
@@ -66,23 +53,16 @@ class StudentAccount(Account):
     Student account with a unique ID format.
     """
 
-    Class_Representetive = models.BooleanField(
-        default=False
-        )
+    Class_Representetive = models.BooleanField(default=False)
     batch = models.ForeignKey(
-        "Departments.Batch",
-        verbose_name="Batch",
-        on_delete=models.CASCADE
+        "Departments.Batch", verbose_name="Batch", on_delete=models.CASCADE
     )
 
     def generate_unique_id(self):
         self.batch.total_students += 1
         self.batch.save()
         return Account.generate_unique_id(
-            self,
-            'ST',
-            str(self.batch.total_students)
-            )
+            self, "ST", str(self.batch.total_students))
 
 
 class TeacherAccount(Account):
