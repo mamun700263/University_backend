@@ -31,6 +31,8 @@ Create from `dev`, and name them like:
 4. Commit and push → `git push origin feature/task-name`
 5. Open a Pull Request to merge into `dev`
 
+### Read this for better understanding:[git-branch-cheatsheet.md](/docs/git-branch-cheatsheet.md)
+### Read this for better branch management:[git-branch-cheatsheet.md](/docs/branch_management.md)
 ---
 
 ## ✅ Commit Message Guidelines
