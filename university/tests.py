@@ -1,8 +1,9 @@
 import time
+
 from django.test import TestCase
 from django.utils import timezone
+
 from .models import University
-from .views import UniversityAPIView
 from .serializers import UniversitySerializer
 
 # Create your tests here.

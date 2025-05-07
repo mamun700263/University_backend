@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import UniversityAPIView
-from .views import UniversityModifyView
+
+from .views import UniversityAPIView, UniversityModifyView
 
 urlpatterns = [
     path("universiy_api/", UniversityAPIView.as_view(), name="university"),

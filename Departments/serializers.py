@@ -1,5 +1,6 @@
-from Accounts.models import StudentAccount
 from rest_framework import serializers
+
+from Accounts.models import StudentAccount
 
 from .models import Batch, Department
 

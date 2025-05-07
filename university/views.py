@@ -1,6 +1,7 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .models import University
 from .serializers import UniversitySerializer
 
@@ -29,7 +30,8 @@ class UniversityModifyView(APIView):
             university = University.objects.get(id=id)
         except University.DoesNotExist:
             return Response(
-                {"error": "University not found."}, status=status.HTTP_404_NOT_FOUND
+                {"error": "University not found."},
+                status=status.HTTP_404_NOT_FOUND
             )
 
         # Serialize the university data
@@ -41,11 +43,13 @@ class UniversityModifyView(APIView):
             university = University.objects.get(id=id)
         except University.DoesNotExist:
             return Response(
-                {"error": "University Not Found"}, status=status.HTTP_404_NOT_FOUND
+                {"error": "University Not Found"},
+                status=status.HTTP_404_NOT_FOUND
             )
 
         # Validate and update with the serializer
-        serializer = UniversitySerializer(university, data=request.data, partial=True)
+        serializer = UniversitySerializer(
+            university, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

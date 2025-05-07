@@ -16,7 +16,8 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
+
 from Accounts import urls as account_url
 from Departments import urls as deparment_url
 from university import urls as university_url

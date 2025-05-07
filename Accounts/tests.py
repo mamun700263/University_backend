@@ -1,11 +1,8 @@
-from django.utils import timezone
 from django.test import TestCase
-from .models import (
-    Department,
-    University,
-    TeacherAccount,
-    Student,
-)  # Assuming Student model exists
+from django.utils import timezone
+
+from .models import (Department, Student,  # Assuming Student model exists
+                     TeacherAccount, University)
 
 
 class DepartmentsModelTest(TestCase):
