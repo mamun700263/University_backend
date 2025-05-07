@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Department
-from .models import Batch
+
+from .models import Batch, Department
 
 # Register your models here.
 # make sure to add the app in the installed app list

@@ -1,7 +1,7 @@
-from rest_framework import serializers
-from .models import Department
-from .models import Batch
 from Accounts.models import StudentAccount
+from rest_framework import serializers
+
+from .models import Batch, Department
 
 
 class DepartmentSerializer(serializers.ModelSerializer):

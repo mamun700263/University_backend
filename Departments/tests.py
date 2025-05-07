@@ -1,8 +1,9 @@
+from datetime import date
+
 from django.test import TestCase
 from university.models import University
-from .models import Department
-from .models import Batch
-from datetime import date
+
+from .models import Batch, Department
 
 
 class DepartmentModelTest(TestCase):
