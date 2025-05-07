@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -31,7 +30,8 @@ class DepartmentModifyView(APIView):
             department = Department.objects.get(id=id)
         except Department.DoesNotExist:
             return Response(
-                {"error": "Department not found."}, status=status.HTTP_404_NOT_FOUND
+                {"error": "Department not found."},
+                status=status.HTTP_404_NOT_FOUND
             )
 
         # Serialize the Department data
@@ -43,11 +43,13 @@ class DepartmentModifyView(APIView):
             department = Department.objects.get(id=id)
         except Department.DoesNotExist:
             return Response(
-                {"error": "Department Not Found"}, status=status.HTTP_404_NOT_FOUND
+                {"error": "Department Not Found"},
+                status=status.HTTP_404_NOT_FOUND
             )
 
         # Validate and update with the serializer
-        serializer = DepartmentSerializer(department, data=request.data, partial=True)
+        serializer = DepartmentSerializer(
+            department, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

@@ -2,7 +2,6 @@ from django.test import TestCase
 from university.models import University
 from .models import Department
 from .models import Batch
-from Accounts.models import TeacherAccount
 from datetime import date
 
 
@@ -25,7 +24,8 @@ class DepartmentModelTest(TestCase):
 
     def test_department_str(self):
         """Test the string representation of the Department model."""
-        self.assertEqual(str(self.department), "Computer Science (Test University)")
+        self.assertEqual(str(self.department),
+                         "Computer Science (Test University)")
         print("hello world")
         print(self.department)
 
@@ -34,7 +34,8 @@ class DepartmentModelTest(TestCase):
         self.assertEqual(self.department.university.name, "Test University")
 
     def test_department_total_students_property(self):
-        """Test the `total_students` property returns 0 when no students exist."""
+        """Test the `total_students` property
+        returns 0 when no students exist."""
         # Assuming related_name='students' on Student model
         self.assertEqual(self.department.total_students, 0)
 

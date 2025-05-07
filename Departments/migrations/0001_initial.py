@@ -29,7 +29,8 @@ class Migration(migrations.Migration):
                 ),
                 ("name", models.CharField(max_length=50, unique=True)),
                 ("total_students", models.PositiveIntegerField(default=0)),
-                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("created_at", models.DateTimeField(
+                    default=django.utils.timezone.now)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 (
                     "department_head",
