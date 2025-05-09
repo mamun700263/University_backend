@@ -1,12 +1,10 @@
 from django.shortcuts import render
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
-from .models import Department
-from .models import Batch
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .serializers import DepartmentSerializer
-from .serializers import BatchSerializer
+from .models import Batch, Department
+from .serializers import BatchSerializer, DepartmentSerializer
 
 
 class DepartmentAPIView(APIView):

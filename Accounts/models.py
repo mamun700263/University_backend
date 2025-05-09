@@ -66,9 +66,7 @@ class StudentAccount(Account):
     Student account with a unique ID format.
     """
 
-    Class_Representetive = models.BooleanField(
-        default=False
-        )
+    Class_Representetive = models.BooleanField(default=False)
     batch = models.ForeignKey(
         "Departments.Batch",
         verbose_name="Batch",

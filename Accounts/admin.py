@@ -5,7 +5,8 @@ from .models import (
     AuthorityAccount,
     StaffAccount,
     StudentAccount,
-    TeacherAccount)
+    TeacherAccount
+    )
 
 # Register your models here.
 # make sure to add the app in the installed app list

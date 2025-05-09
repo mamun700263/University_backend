@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import (Department, Student, TeacherAccount, University)
+from .models import Department, Student, TeacherAccount, University
 
 
 class DepartmentsModelTest(TestCase):
