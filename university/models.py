@@ -9,7 +9,8 @@ class University(models.Model):
     name = models.CharField(max_length=100, unique=True)
     starting_date = models.DateTimeField(auto_now_add=True)
     established_date = models.DateField(
-        blank=False, null=False
+        blank=False,
+        null=False
     )  # Automatically adds timestamp
     updated_at = models.DateTimeField(auto_now=True)
 

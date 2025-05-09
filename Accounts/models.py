@@ -12,11 +12,18 @@ class Account(models.Model):
     Base Account class for all user accounts.
     """
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE,
-                                related_name="account")
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="account"
+        )
     date_of_birth = models.DateField(blank=True, null=True)
-    unique_id = models.CharField(unique=True,
-                                 max_length=11, null=True, blank=True)
+    unique_id = models.CharField(
+        unique=True,
+        max_length=11,
+        null=True,
+        blank=True
+        )
     bio = models.TextField(blank=True, null=True)
     mobile = models.CharField(
         max_length=11,
