@@ -1,14 +1,9 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import (
-    AccountViewSet,
-    AuthorityAccountViewSet,
-    StaffAccountViewSet,
-    StudentAccountViewSet,
-    TeacherAccountViewSet,
-    UserLoginApiView,
-)
+from .views import (AccountViewSet, AuthorityAccountViewSet,
+                    StaffAccountViewSet, StudentAccountViewSet,
+                    TeacherAccountViewSet, UserLoginApiView)
 
 router = DefaultRouter()
 router.register(r"accounts", AccountViewSet)

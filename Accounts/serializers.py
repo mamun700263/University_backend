@@ -1,13 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import (
-    Account,
-    AuthorityAccount,
-    StaffAccount,
-    StudentAccount,
-    TeacherAccount,
-)
+from .models import (Account, AuthorityAccount, StaffAccount, StudentAccount,
+                     TeacherAccount)
 
 
 class UserSerializer(serializers.ModelSerializer):

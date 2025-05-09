@@ -1,11 +1,7 @@
-from django.utils import timezone
 from django.test import TestCase
-from .models import (
-    Department,
-    University,
-    TeacherAccount,
-    Student,
-)  # Assuming Student model exists
+from django.utils import timezone
+
+from .models import (Department, Student, TeacherAccount, University)
 
 
 class DepartmentsModelTest(TestCase):
@@ -17,12 +13,15 @@ class DepartmentsModelTest(TestCase):
         """
         # Create a university instance
         self.university = University.objects.create(
-            name="Sample University", starting_date=timezone.now().date()
+            name="Sample University",
+            starting_date=timezone.now().date()
         )
 
         # Create a TeacherAccount instance (assuming TeacherAccount exists)
         self.teacher = TeacherAccount.objects.create(
-            username="teacher1", password="password", email="teacher1@example.com"
+            username="teacher1",
+            password="password",
+            email="teacher1@example.com"
         )
 
         # Create a Department instance
@@ -44,7 +43,10 @@ class DepartmentsModelTest(TestCase):
 
     def test_department_str(self):
         """Test the string representation of the Department."""
-        self.assertEqual(str(self.department), "Computer Science (Sample University)")
+        self.assertEqual(
+            str(self.department),
+            "Computer Science (Sample University)"
+            )
 
     def test_student_count_property(self):
         """Test the student_count property."""
@@ -73,8 +75,12 @@ class DepartmentsModelTest(TestCase):
         self.department.name = "Electrical Engineering"
         self.department.total_students = 200
         self.department.save()
-
         updated_department = Department.objects.get(id=self.department.id)
-        self.assertEqual(updated_department.name, "Electrical Engineering")
-        self.assertEqual(updated_department.total_students, 200)
-# trisha
+        self.assertEqual(
+            updated_department.name,
+            "Electrical Engineering"
+            )
+        self.assertEqual(
+            updated_department.total_students,
+            200
+            )

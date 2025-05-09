@@ -1,26 +1,17 @@
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.views import APIView
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
-from rest_framework import status
-from django.contrib.auth import authenticate, login as auth_login
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
-from .models import (
-    Account,
-    AuthorityAccount,
-    StaffAccount,
-    StudentAccount,
-    TeacherAccount,
-)
-from .serializers import (
-    AccountSerializer,
-    AuthorityAccountSerializer,
-    StaffAccountSerializer,
-    StudentAccountSerializer,
-    TeacherAccountSerializer,
-    LoginSerializer,
-)
+from .models import (Account, AuthorityAccount, StaffAccount, StudentAccount,
+                     TeacherAccount)
+from .serializers import (AccountSerializer, AuthorityAccountSerializer,
+                          LoginSerializer, StaffAccountSerializer,
+                          StudentAccountSerializer, TeacherAccountSerializer)
 
 
 # Account ViewSets
@@ -73,7 +64,8 @@ class UserLoginApiView(APIView):
                 token, created = Token.objects.get_or_create(user=user)
                 auth_login(request, user)  # Log the user in
                 return Response(
-                    {"token": token.key, "user_id": user.id}, status=status.HTTP_200_OK
+                    {"token": token.key, "user_id": user.id},
+                    status=status.HTTP_200_OK
                 )
             else:
                 print("Authentication failed for user:", username)
