@@ -1,7 +1,6 @@
 from datetime import date
 
 from django.test import TestCase
-
 from university.models import University
 
 from .models import Batch, Department
