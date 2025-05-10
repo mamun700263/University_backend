@@ -20,15 +20,10 @@ class UniversityModelTest(TestCase):
         )
 
     def test_university_name(self):
-        self.assertEqual(
-            self.university.name,
-            "Test University"
-        )
+        self.assertEqual(self.university.name, "Test University")
 
     def test_created_at_timestamp(self):
-        self.assertIsNotNone(
-            self.university.established_date
-        )
+        self.assertIsNotNone(self.university.established_date)
 
     def test_str_method(self):
         print(str(self.university))
@@ -49,9 +44,7 @@ class UniversitySerializerTestCase(TestCase):
 
     def test_serialization(self):
         # Serialize the model instance
-        serializer = UniversitySerializer(
-            self.university
-        )
+        serializer = UniversitySerializer(self.university)
         print("Check before update:")
         print(serializer.data)
 
@@ -61,8 +54,6 @@ class UniversitySerializerTestCase(TestCase):
         self.university.save()  # Save the changes to the database
 
         # Reinitialize the serializer to reflect changes
-        serializer = UniversitySerializer(
-            self.university
-        )
+        serializer = UniversitySerializer(self.university)
         print("Check after update:")
         print(serializer.data)
