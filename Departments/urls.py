@@ -1,7 +1,11 @@
 from django.urls import path
 
-from .views import (BatchAPIView, BatchModifyView, DepartmentAPIView,
-                    DepartmentModifyView)
+from .views import (
+    BatchAPIView,
+    BatchModifyView,
+    DepartmentAPIView,
+    DepartmentModifyView
+    )
 
 urlpatterns = [
     path("deparments_view/", DepartmentAPIView.as_view()),

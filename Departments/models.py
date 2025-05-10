@@ -19,8 +19,10 @@ class Department(models.Model):
 
     name = models.CharField(max_length=50, unique=True)
     university = models.ForeignKey(
-        University, verbose_name="University",
-        on_delete=models.CASCADE, default=1
+        University,
+        verbose_name="University",
+        on_delete=models.CASCADE,
+        default=1
     )
     department_head = models.OneToOneField(
         "Accounts.TeacherAccount",
@@ -30,15 +32,12 @@ class Department(models.Model):
         null=True,
         blank=True,
     )
-    total_students = models.PositiveIntegerField(
-        default=0
-    )  # Optional: Dynamically calculate this.
-    created_at = models.DateField(
-        null=False, blank=False
-    )  # Automatically set when created.
-    updated_at = models.DateTimeField(
-        auto_now=True
-    )  # Automatically updated on every save.
+    # Optional: Dynamically calculate this.
+    total_students = models.PositiveIntegerField(default=0)
+    # Automatically set when created.
+    created_at = models.DateField(null=False, blank=False)
+    # Automatically updated on every save.
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Department"
@@ -54,15 +53,14 @@ class Department(models.Model):
         Dynamically calculate the total number of students in the department.
         Assumes a related `Student` model with a foreign key to `Department`.
         """
-        return (
-            self.students.count()
-        )  # Replace `students` with the related name in the Student model.
+        # Replace `students` with the related name in the Student model.
+        return (self.students.count())
 
 
 class Batch(models.Model):
+
     """
     Represents a batch within a department.
-
     Attributes:
         department (ForeignKey): Reference to the associated department.
         batch_number (int): Unique identifier for the batch.
@@ -72,12 +70,14 @@ class Batch(models.Model):
     """
 
     department = models.ForeignKey(
-        Department, verbose_name="Department",
-        on_delete=models.CASCADE, default=1
+        Department,
+        verbose_name="Department",
+        on_delete=models.CASCADE,
+        default=1
     )
-    batch_number = (
-        models.IntegerField()
-    )  # Remove `unique=True` if using the unique constraint below.
+
+    # Remove `unique=True` if using the unique constraint below.
+    batch_number = (models.IntegerField())
     start_date = models.DateField(null=False, blank=False)
     end_date = models.DateField(editable=False)
     total_students = models.IntegerField(default=0)
@@ -88,8 +88,8 @@ class Batch(models.Model):
         ordering = ["start_date"]
         unique_together = (
             "department",
-            "batch_number",
-        )  # Ensure unique batch numbers per department.
+            "batch_number"
+            )  # Ensure unique batch numbers per department.
 
     def save(self, *args, **kwargs):
         """
@@ -99,7 +99,8 @@ class Batch(models.Model):
         if self.start_date:
             # Ensure start_date is set before calculating end_date
             self.end_date = self.start_date.replace(
-                year=self.start_date.year + 4)
+                year=self.start_date.year + 4
+                )
         super().save(*args, **kwargs)
 
     def __str__(self):
