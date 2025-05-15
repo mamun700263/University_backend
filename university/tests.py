@@ -6,6 +6,9 @@ from django.utils import timezone
 from .models import University
 from .serializers import UniversitySerializer
 
+from .views import UniversityAPIView
+
+
 # Create your tests here.
 
 

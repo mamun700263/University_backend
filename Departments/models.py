@@ -1,4 +1,9 @@
 from django.db import models
+
+from django.utils import timezone
+
+from Accounts.models import TeacherAccount
+
 from university.models import University
 
 

@@ -7,11 +7,23 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from .models import (Account, AuthorityAccount, StaffAccount, StudentAccount,
-                     TeacherAccount)
-from .serializers import (AccountSerializer, AuthorityAccountSerializer,
-                          LoginSerializer, StaffAccountSerializer,
-                          StudentAccountSerializer, TeacherAccountSerializer)
+
+from .models import (
+    Account,
+    AuthorityAccount,
+    StaffAccount, 
+    StudentAccount,
+    TeacherAccount
+    )
+from .serializers import (
+    AccountSerializer,
+    AuthorityAccountSerializer,
+    LoginSerializer,
+    StaffAccountSerializer,
+    StudentAccountSerializer,
+    TeacherAccountSerializer
+    )
+
 
 
 # Account ViewSets
