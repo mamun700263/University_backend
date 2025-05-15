@@ -16,5 +16,4 @@ class BatchSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def student_count(self):
-        students = StudentAccount.objects.get(
-            batch=self.model).count()
+        students = StudentAccount.objects.get( batch=self.model).count()
