@@ -23,35 +23,80 @@ Create from `dev`, and name them like:
 | Docs    | `docs/`    | docs/update-readme         |
 | Hotfix  | `hotfix/`  | hotfix/db-connection-error |
 
-### Workflow:
+Here’s a refined and cleaner version of your workflow and commit guidelines:
 
-1. Checkout `dev` → `git checkout dev && git pull`
-2. Create new branch → `git checkout -b feature/task-name`
-3. Do your work
-4. Commit and push → `git push origin feature/task-name`
-5. Open a Pull Request to merge into `dev`
+---
 
-### Read this for better understanding:[git-branch-cheatsheet.md](/docs/git-branch-cheatsheet.md)
-### Read this for better branch management:[git-branch-cheatsheet.md](/docs/branch_management.md)
+## 🚀 Git Workflow
+
+1. **Switch to `dev` branch**
+
+   ```bash
+   git checkout dev && git pull
+   ```
+
+2. **Create a new feature branch**
+
+   ```bash
+   git checkout -b feature/task-name
+   ```
+
+3. **Make your changes**
+
+4. **Stage your work**
+
+   ```bash
+   git add .        # Or specify files: git add path/to/file
+   ```
+
+5. **Commit using Conventional Commits**
+
+   ```bash
+   <type>: <short summary> (#issue_number)
+   ```
+
+6. **Push your branch**
+
+   ```bash
+   git push origin feature/task-name
+   ```
+
+7. **Create a Pull Request**
+
+   * Merge your feature branch into `dev`
+
 ---
 
 ## ✅ Commit Message Guidelines
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
+Follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format:
 
 ```
 <type>: <issue name / short summary> (#issue_number)
 ```
 
-**Types:** `feature`, `bugfix`, `docs`, `chore`, `hotfix`
+**Types:**
 
-### Examples:
+* `feature` – New feature
+* `bugfix` – Bug fix
+* `docs` – Documentation changes
+* `chore` – Maintenance or non-functional updates
+* `hotfix` – Urgent fix for critical issues
+
+### 💡 Examples
 
 * `feature: add login API with JWT (#3)`
-* `bugfix: fix user session timeout (#5)`
-* `chore: apply PEP8 to accounts app (#2)`
+* `bugfix: fix user session timeout issue (#5)`
+* `chore: apply PEP8 formatting to accounts app (#2)`
 
 ---
+
+📖 **Helpful Resources:**
+
+* [Git Branch Cheat Sheet](/docs/git-branch-cheatsheet.md)
+* [Branch Management Guide](/docs/branch_management.md)
+
+
 
 ## 🔄 Pull Requests (PR)
 
