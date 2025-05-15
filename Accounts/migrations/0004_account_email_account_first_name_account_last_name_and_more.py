@@ -28,6 +28,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="account",
             name="username",
-            field=models.CharField(default="username", max_length=50, unique=True),
+            field=models.CharField(
+                default="username", max_length=50, unique=True),
         ),
     ]

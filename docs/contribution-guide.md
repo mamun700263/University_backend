@@ -40,7 +40,7 @@ Create from `dev`, and name them like:
 Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
 
 ```
-<type>: <short summary> (#issue_number)
+<type>: <issue name / short summary> (#issue_number)
 ```
 
 **Types:** `feature`, `bugfix`, `docs`, `chore`, `hotfix`

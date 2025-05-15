@@ -29,15 +29,18 @@ class Migration(migrations.Migration):
                 ("date_of_birth", models.DateField(blank=True, null=True)),
                 (
                     "unique_id",
-                    models.CharField(blank=True, max_length=11, null=True, unique=True),
+                    models.CharField(blank=True,
+                                     max_length=11, null=True, unique=True),
                 ),
                 ("bio", models.TextField(blank=True, null=True)),
-                ("mobile", models.CharField(blank=True, max_length=11, null=True)),
+                ("mobile", models.CharField(
+                    blank=True, max_length=11, null=True)),
                 (
                     "profile_picture",
                     models.URLField(
                         blank=True,
-                        default="https://i.ibb.co.com/zHJyw5w/User-Profile-PNG-Clipart.png",
+                        default="https://i.ibb.co.com/zHJyw5w/"
+                        "User-Profile-PNG-Clipart.png",
                         null=True,
                     ),
                 ),

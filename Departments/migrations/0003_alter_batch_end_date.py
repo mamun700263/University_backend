@@ -6,13 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Departments', '0002_alter_batch_end_date_alter_batch_start_date_and_more'),
+        ("Departments",
+         "0002_alter_batch_end_date_alter_batch_start_date_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='batch',
-            name='end_date',
+            model_name="batch",
+            name="end_date",
             field=models.DateField(editable=False),
         ),
     ]

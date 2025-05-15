@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+
 from .models import (
     Account,
     AuthorityAccount,
@@ -7,6 +8,7 @@ from .models import (
     StudentAccount,
     TeacherAccount
     )
+
 
 # Register your models here.
 # make sure to add the app in the installed app list

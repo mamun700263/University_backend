@@ -1,7 +1,9 @@
 from django.db import models
+
 from django.utils import timezone
 
 from Accounts.models import TeacherAccount
+
 from university.models import University
 
 
@@ -12,15 +14,18 @@ class Department(models.Model):
 
     Attributes:
         name (str): Name of the department.
-        department_head (OneToOneField): Reference to the department head account.
+        department_head (OneToOneField): Reference
+        to the department head account.
         total_students (int): Total number of students in the department.
         created_at (datetime): Timestamp for when the department was created.
-        updated_at (datetime): Timestamp for when the department details were last updated.
+        updated_at (datetime): Timestamp for when
+        the department details were last updated.
     """
 
     name = models.CharField(max_length=50, unique=True)
     university = models.ForeignKey(
-        University, verbose_name="University", on_delete=models.CASCADE, default=1
+        University, verbose_name="University",
+        on_delete=models.CASCADE, default=1
     )
     department_head = models.OneToOneField(
         "Accounts.TeacherAccount",
@@ -72,7 +77,8 @@ class Batch(models.Model):
     """
 
     department = models.ForeignKey(
-        Department, verbose_name="Department", on_delete=models.CASCADE, default=1
+        Department, verbose_name="Department",
+        on_delete=models.CASCADE, default=1
     )
     batch_number = (
         models.IntegerField()
@@ -92,10 +98,13 @@ class Batch(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Automatically set the end_date to exactly 4 years after the start_date.
+        Automatically set the end_date
+        to exactly 4 years after the start_date.
         """
-        if self.start_date:  # Ensure start_date is set before calculating end_date
-            self.end_date = self.start_date.replace(year=self.start_date.year + 4)
+        if self.start_date:
+            # Ensure start_date is set before calculating end_date
+            self.end_date = self.start_date.replace(
+                year=self.start_date.year + 4)
         super().save(*args, **kwargs)
 
     def __str__(self):

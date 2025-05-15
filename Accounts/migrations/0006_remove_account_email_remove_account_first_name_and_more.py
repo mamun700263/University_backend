@@ -51,7 +51,8 @@ class Migration(migrations.Migration):
             model_name="account",
             name="profile_picture",
             field=models.URLField(
-                blank=True, default="https://i.imgur.com/placeholder.png", null=True
+                blank=True, default="https://i.imgur.com/"
+                "placeholder.png", null=True
             ),
         ),
     ]

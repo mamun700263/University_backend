@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Departments', '0001_initial'),
+        ("Departments", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='batch',
-            name='end_date',
+            model_name="batch",
+            name="end_date",
             field=models.DateField(),
         ),
         migrations.AlterField(
-            model_name='batch',
-            name='start_date',
+            model_name="batch",
+            name="start_date",
             field=models.DateField(),
         ),
         migrations.AlterField(
-            model_name='department',
-            name='created_at',
+            model_name="department",
+            name="created_at",
             field=models.DateField(),
         ),
     ]
