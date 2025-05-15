@@ -29,8 +29,10 @@ class DepartmentModelTest(TestCase):
 
     def test_department_str(self):
         """Test the string representation of the Department model."""
-        self.assertEqual(str(self.department),
-                         "Computer Science (Test University)")
+        self.assertEqual(
+            str(self.department),
+            "Computer Science (Test University)"
+            )
         print("hello world")
         print(self.department)
 
