@@ -128,3 +128,92 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+############################################################
+import os
+
+# Define directory for log files
+# Ensures logs are organized under BASE_DIR/logs/
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+
+# Create the directory if it doesn't exist
+os.makedirs(LOG_DIR, exist_ok=True)
+
+LOGGING = {
+    # Required setting: must always be 1
+    "version": 1,
+
+    # If True, disables all existing loggers. We set to False so Django and third-party logging still works
+    "disable_existing_loggers": False,
+
+    # === FORMATTERS ===
+    # Formatters define HOW the logs will look
+    "formatters": {
+        "default": {
+            "format": "[{asctime}] {levelname} [{name}] {message}",
+            "style": "{",  # Enables `{}` formatting instead of default `%`
+        },
+    },
+
+    # === HANDLERS ===
+    # Handlers define WHERE the logs go (console, file, etc.)
+    "handlers": {
+        "console": {
+            "level": "DEBUG",  # Lowest level to display in console (during dev)
+            "class": "logging.StreamHandler",  # Sends logs to standard output (terminal)
+            "formatter": "default",  # Use the 'default' formatter defined above
+        },
+        "file": {
+            "level": "INFO",  # Only INFO and above will be written to file
+            "class": "logging.FileHandler",  # Writes logs to file
+            "filename": os.path.join(LOG_DIR, "university.log"),  # Target log file
+            "formatter": "default",  # Use the same format as console logs
+        },
+    },
+
+    # === ROOT LOGGER ===
+    # The base logger used when no specific logger name is given
+    "root": {
+        "handlers": ["console"],  # Send root logs to terminal
+        "level": "WARNING",  # Only WARNING and above (ERROR, CRITICAL) will show up
+    },
+
+    # === NAMED LOGGERS ===
+    # Define loggers per Django app/module
+    "loggers": {
+        "django": {
+            "handlers": ["console"],  # Show Django's logs in console only
+            "level": "INFO",  # Display INFO and above
+            "propagate": False,  # Don’t bubble logs up to root logger again
+        },
+
+        # Custom logger for `university` app
+        "university": {
+            "handlers": ["file"],  # Logs saved to university.log
+            "level": "INFO",
+            "propagate": False,
+        },
+
+        # Custom logger for `students` app (extendable to more apps)
+        "students": {
+            "handlers": ["file"],  # Same file for simplicity; can be changed
+            "level": "INFO",
+            "propagate": False,
+        },
+
+        # Custom logger for `courses` app
+        "courses": {
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": False,
+        },
+
+        # Add more apps like this:
+        # "teachers": {
+        #     "handlers": ["file"],
+        #     "level": "INFO",
+        #     "propagate": False,
+        # },
+    },
+}
