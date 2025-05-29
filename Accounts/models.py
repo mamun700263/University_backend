@@ -55,21 +55,34 @@ class Account(models.Model):
         return f"{prefix}{uuid.uuid4().hex[:8].upper()}"
 
 
+def account_count(count):
+    if 10 < count < 100:
+        return f'0{count}'
+    elif count < 10:
+        return f'00{count}'
+    else:
+        return str(count)
+
+
+
 class StudentAccount(Account):
     """
     Student account with a unique ID format.
     """
-
     Class_Representetive = models.BooleanField(default=False)
     batch = models.ForeignKey(
-        "batch.Batch", verbose_name="Batch", on_delete=models.CASCADE
+        "batch.Batch",
+        verbose_name="Batch",
+        on_delete=models.CASCADE
     )
 
     def generate_unique_id(self):
         self.batch.total_students += 1
         self.batch.save()
-        return Account.generate_unique_id(
-            self, "ST", str(self.batch.total_students))
+        count = account_count(self.batch.total_students)
+        department_name = self.batch.department.name
+        id = f'ST{department_name}{count}'
+        return id
 
 
 class TeacherAccount(Account):
