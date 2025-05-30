@@ -55,7 +55,7 @@ class Account(models.Model):
         return f"{prefix}{uuid.uuid4().hex[:8].upper()}"
 
 
-def account_count(count):
+def zero_str(count):
     if 10 < count < 100:
         return f'0{count}'
     elif count < 10:
@@ -79,9 +79,9 @@ class StudentAccount(Account):
     def generate_unique_id(self):
         self.batch.total_students += 1
         self.batch.save()
-        count = account_count(self.batch.total_students)
-        department_name = self.batch.department.name
-        id = f'ST{department_name}{count}'
+        count = zero_str(self.batch.total_students)
+        batch_name = self.batch.short_name
+        id = f'ST{batch_name}{count}'
         return id
 
 

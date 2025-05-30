@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import date
 from Departments.models import Department
+from Accounts.models import zero_str
 import logging
 
 logger = logging.getLogger("batch.model")
@@ -37,7 +38,7 @@ class Batch(models.Model):
         unique=True,
         blank=True,
         null=True
-        )
+    )
     batch_number = models.IntegerField(verbose_name="Batch Number")
     start_date = models.DateField(verbose_name="Start Date")
     end_date = models.DateField(verbose_name="End Date", editable=False)
@@ -58,8 +59,7 @@ class Batch(models.Model):
             )
         ]
     def batch_namer(self,batach_number,department_short_name):
-        if batach_number<9:
-            batach_number = f'0{batach_number}'
+        batach_number = zero_str(batach_number)
         return f'{department_short_name}{batach_number}'
 
     def save(self, *args, **kwargs):
@@ -75,4 +75,4 @@ class Batch(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Batch {self.batch_number} ({self.department.name})"
+        return f"{self.short_name}"
