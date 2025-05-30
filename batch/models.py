@@ -32,6 +32,12 @@ class Batch(models.Model):
         verbose_name="Department",
         on_delete=models.CASCADE
     )
+    short_name = models.CharField(
+        max_length=5,
+        unique=True,
+        blank=True,
+        null=True
+        )
     batch_number = models.IntegerField(verbose_name="Batch Number")
     start_date = models.DateField(verbose_name="Start Date")
     end_date = models.DateField(verbose_name="End Date", editable=False)
@@ -51,6 +57,10 @@ class Batch(models.Model):
                 name="unique_batch_per_department"
             )
         ]
+    def batch_namer(self,batach_number,department_short_name):
+        if batach_number<9:
+            batach_number = f'0{batach_number}'
+        return f'{department_short_name}{batach_number}'
 
     def save(self, *args, **kwargs):
         """
@@ -61,6 +71,7 @@ class Batch(models.Model):
             logger.debug(
                 f"Calculated end_date for Batch {self.batch_number}: {self.end_date}"
             )
+        self.short_name= self.batch_namer(self.batch_number,self.department.short_name)
         super().save(*args, **kwargs)
 
     def __str__(self):
