@@ -27,6 +27,7 @@ class DepartmentModelTest(TestCase):
         self.department = Department.objects.create(
             university= self.university,
             name="Computer Science",
+            short_name='CS',
             created_at=date.today(),
             
         )
@@ -52,6 +53,14 @@ class DepartmentModelTest(TestCase):
         self.assertEqual(university_name, "Test University")
         logger.info("✅ Department is linked to the correct University")
 
+    def test_department_has_short_name(self):
+        """🔗 Test that a department is correctly assaigned a shortname."""
+        short_name = self.department.short_name
+        logger.info("🧪 Testing university short name")
+        logger.debug(f"given short name: {short_name}")
+
+        self.assertEqual(short_name, "CS")
+        logger.info("✅ Department has short name")
     # def test_department_total_students_property(self):
     #     """📊 Test the `total_students` property returns 0 when no students exist."""
     #     logger.info("🧪 Testing total_students property on Department")
