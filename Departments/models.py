@@ -5,17 +5,21 @@ import logging
 logger = logging.getLogger("departments.model")
 
 class Department(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    
+    name = models.CharField(
+        max_length=50,
+        unique=True
+        )
+    short_name = models.CharField(
+        max_length=3,
+        unique=True,
+        default='CSE'
+        )
     university = models.ForeignKey(
         University,
         verbose_name="University",
         on_delete=models.CASCADE,
         related_name="departments"
     )
-
-
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -30,7 +34,8 @@ class Department(models.Model):
     @property
     def student_count(self):
         count = self.students.count()
-        logger.info(f"Accessed student count for department '{self.name}': {count}")
+        logger.info(f"Accessed student count for\
+                     department '{self.name}': {count}")
         return count
 
     def save(self, *args, **kwargs):
@@ -42,5 +47,6 @@ class Department(models.Model):
                     f"'{old.department_head}' to '{self.department_head}'"
                 )
         else:
-            logger.info(f"New department created: {self.name} under {self.university.name}")
+            logger.info(f"New department created: \
+                        {self.name} under {self.university.name}")
         super().save(*args, **kwargs)
