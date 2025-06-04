@@ -11,7 +11,6 @@ class Account(models.Model):
     """
     Base Account class for all user accounts.
     """
-
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -91,9 +90,15 @@ class TeacherAccount(Account):
     """
 
     Department_head = models.BooleanField(default=False)
+    department = models.ForeignKey(
+        "Departments.Department",
+        verbose_name="Department",
+        on_delete=models.CASCADE,
+        default=1,
+    )
 
     def generate_unique_id(self):
-        return f"TE-{uuid.uuid4().hex[:8].upper()}"
+        return f"TE{self.department.short_name}{uuid.uuid4().hex[:4].upper()}"
 
 
 class StaffAccount(Account):

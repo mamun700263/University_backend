@@ -2,7 +2,6 @@ from datetime import date
 from django.utils import timezone
 from django.test import TestCase
 
-from Accounts.models import TeacherAccount
 from university.models import University
 from .models import Department
 
