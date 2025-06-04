@@ -50,7 +50,7 @@ class Account(models.Model):
             self.unique_id = self.generate_unique_id()
         super().save(*args, **kwargs)
 
-    def generate_unique_id(self, prefix, suffix):
+    def generate_unique_id(self, prefix='', suffix=''):
         return f"{prefix}{uuid.uuid4().hex[:8].upper()}"
 
 
@@ -105,13 +105,6 @@ class StaffAccount(Account):
     """
     Staff account with a unique ID format.
     """
-
-    def save(self, *args, **kwargs):
-        is_new = self.pk is None  # Check if the student is new
-        super().save(*args, **kwargs)  # Save the student first
-        if is_new:  # Increment count only for new students
-            self.batch.student_count += 1
-            self.batch.save()
 
     def generate_unique_id(self):
         return f"OF-{uuid.uuid4().hex[:8].upper()}"
