@@ -11,7 +11,6 @@ class Account(models.Model):
     """
     Base Account class for all user accounts.
     """
-
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -51,25 +50,38 @@ class Account(models.Model):
             self.unique_id = self.generate_unique_id()
         super().save(*args, **kwargs)
 
-    def generate_unique_id(self, prefix, suffix):
+    def generate_unique_id(self, prefix='', suffix=''):
         return f"{prefix}{uuid.uuid4().hex[:8].upper()}"
+
+
+def zero_str(count):
+    if 10 < count < 100:
+        return f'0{count}'
+    elif count < 10:
+        return f'00{count}'
+    else:
+        return str(count)
+
 
 
 class StudentAccount(Account):
     """
     Student account with a unique ID format.
     """
-
     Class_Representetive = models.BooleanField(default=False)
     batch = models.ForeignKey(
-        "batch.Batch", verbose_name="Batch", on_delete=models.CASCADE
+        "batch.Batch",
+        verbose_name="Batch",
+        on_delete=models.CASCADE
     )
 
     def generate_unique_id(self):
         self.batch.total_students += 1
         self.batch.save()
-        return Account.generate_unique_id(
-            self, "ST", str(self.batch.total_students))
+        count = zero_str(self.batch.total_students)
+        batch_name = self.batch.short_name
+        id = f'ST{batch_name}{count}'
+        return id
 
 
 class TeacherAccount(Account):
@@ -78,22 +90,21 @@ class TeacherAccount(Account):
     """
 
     Department_head = models.BooleanField(default=False)
+    department = models.ForeignKey(
+        "Departments.Department",
+        verbose_name="Department",
+        on_delete=models.CASCADE,
+        default=1,
+    )
 
     def generate_unique_id(self):
-        return f"TE-{uuid.uuid4().hex[:8].upper()}"
+        return f"TE{self.department.short_name}{uuid.uuid4().hex[:4].upper()}"
 
 
 class StaffAccount(Account):
     """
     Staff account with a unique ID format.
     """
-
-    def save(self, *args, **kwargs):
-        is_new = self.pk is None  # Check if the student is new
-        super().save(*args, **kwargs)  # Save the student first
-        if is_new:  # Increment count only for new students
-            self.batch.student_count += 1
-            self.batch.save()
 
     def generate_unique_id(self):
         return f"OF-{uuid.uuid4().hex[:8].upper()}"
