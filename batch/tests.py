@@ -27,7 +27,8 @@ class BatchModelTest(TestCase):
         self.department = Department.objects.create(
             university=self.university,
             name="Computer Science",
-            created_at=timezone.now().date()
+            created_at=timezone.now().date(),
+            short_name = 'CS'
         )
 
     def test_batch_creation_and_end_date(self):
