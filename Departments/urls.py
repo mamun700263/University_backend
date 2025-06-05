@@ -1,15 +1,11 @@
-from django.urls import path
+# urls.py (in your app)
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import DepartmentViewSet
 
-from .views import (
-    # BatchAPIView,
-    # BatchModifyView,
-    DepartmentAPIView,
-    DepartmentModifyView
-    )
+router = DefaultRouter()
+router.register(r'departments', DepartmentViewSet, basename='department')
 
 urlpatterns = [
-    path("deparments_view/", DepartmentAPIView.as_view()),
-    # path("batchs_view/", BatchAPIView.as_view()),
-    path("deparments_modify_view/<int:id>/", DepartmentModifyView.as_view()),
-    # path("batchs_modify_view/<int:id>/", BatchModifyView.as_view()),
+    path('', include(router.urls)),
 ]

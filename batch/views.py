@@ -1,57 +1,37 @@
-from django.shortcuts import render
-from .models import Batch
-
-from django.shortcuts import render
-
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from .serializers import BatchSerializer
-# Create your views here.
 import logging
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from .models import Batch
+from .serializers import BatchSerializer
 
 logger = logging.getLogger("batch.model")
 
-class BatchAPIView(APIView):
-    def get(self, request):
-        batchs = Batch.objects.all()
-        serializer = BatchSerializer(batchs, many=True)
-        return Response(serializer.data)
 
-    def post(self, request):
-        serializer = BatchSerializer(data=request.data)
+class BatchViewSet(viewsets.ModelViewSet):
+    queryset = Batch.objects.all()
+    serializer_class = BatchSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
+            self.perform_create(serializer)
+            logger.info(f"✅ Batch created: {serializer.data}")
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        logger.warning(f"❌ Batch creation failed: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class BatchModifyView(APIView):
-    def get(self, request, id, *args, **kwargs):
+    def partial_update(self, request, pk=None, *args, **kwargs):
         try:
-            # Retrieve the Batch by id
-            batch = Batch.objects.get(id=id)
+            instance = self.get_object()
         except Batch.DoesNotExist:
-            return Response(
-                {"error": "Batch not found."}, status=status.HTTP_404_NOT_FOUND
-            )
+            logger.error(f"❌ Batch not found for update: ID {pk}")
+            return Response({"error": "Batch not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        # Serialize the Batch data
-        serializer = BatchSerializer(batch)
-        return Response(serializer.data)
-
-    def patch(self, request, id, *args, **kwargs):
-        try:
-            batch = Batch.objects.get(id=id)
-        except Batch.DoesNotExist:
-            return Response(
-                {"error": "Batch Not Found"}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        # Validate and update with the serializer
-        serializer = BatchSerializer(batch, data=request.data, partial=True)
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            self.perform_update(serializer)
+            logger.info(f"🔄 Batch updated: ID {pk}")
+            return Response(serializer.data)
+        logger.warning(f"❌ Invalid data on update for Batch ID {pk}: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
