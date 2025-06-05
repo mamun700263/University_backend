@@ -62,7 +62,7 @@ class StudentAccount(Account):
 
     Class_Representetive = models.BooleanField(default=False)
     batch = models.ForeignKey(
-        "Departments.Batch", verbose_name="Batch", on_delete=models.CASCADE
+        "batch.Batch", verbose_name="Batch", on_delete=models.CASCADE
     )
 
     def generate_unique_id(self):

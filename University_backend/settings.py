@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "Accounts",
     "Departments",
     "university",
+    "batch",
 ]
 
 MIDDLEWARE = [
@@ -164,11 +165,29 @@ LOGGING = {
             "class": "logging.StreamHandler",  # Sends logs to standard output (terminal)
             "formatter": "default",  # Use the 'default' formatter defined above
         },
-        "file": {
+        "university_file": {
             "level": "INFO",  # Only INFO and above will be written to file
+            # "level": "WARNING",
             "class": "logging.FileHandler",  # Writes logs to file
             "filename": os.path.join(LOG_DIR, "university.log"),  # Target log file
             "formatter": "default",  # Use the same format as console logs
+        },
+
+        "departments_file": {
+            # "level": "INFO",
+            # "level": "WARNING",
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "departments.log"),
+            "formatter": "default",
+        },
+        "batch_file": {
+            # "level": "INFO",
+            # "level": "WARNING",
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "batch.log"),
+            "formatter": "default",
         },
     },
 
@@ -190,30 +209,21 @@ LOGGING = {
 
         # Custom logger for `university` app
         "university": {
-            "handlers": ["file"],  # Logs saved to university.log
+            "handlers": ["university_file"],  # Logs saved to university.log
             "level": "INFO",
             "propagate": False,
         },
-
-        # Custom logger for `students` app (extendable to more apps)
-        "students": {
-            "handlers": ["file"],  # Same file for simplicity; can be changed
-            "level": "INFO",
-            "propagate": False,
+        "departments": {
+        "handlers": ["departments_file"],
+        # "level": "INFO",
+        "level": "DEBUG",
+        "propagate": False,
         },
-
-        # Custom logger for `courses` app
-        "courses": {
-            "handlers": ["file"],
-            "level": "INFO",
-            "propagate": False,
+        "batch": {
+        "handlers": ["batch_file"],
+        # "level": "INFO",
+        "level": "DEBUG",
+        "propagate": False,
         },
-
-        # Add more apps like this:
-        # "teachers": {
-        #     "handlers": ["file"],
-        #     "level": "INFO",
-        #     "propagate": False,
-        # },
     },
 }
