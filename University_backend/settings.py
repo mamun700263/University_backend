@@ -45,7 +45,12 @@ INSTALLED_APPS = [
     "Departments",
     "university",
     "batch",
+    #3###
+    "drf_spectacular",
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -167,7 +172,7 @@ LOGGING = {
         },
         "university_file": {
             "level": "INFO",  # Only INFO and above will be written to file
-            # "level": "WARNING",
+            "level": "DEBUG",
             "class": "logging.FileHandler",  # Writes logs to file
             "filename": os.path.join(LOG_DIR, "university.log"),  # Target log file
             "formatter": "default",  # Use the same format as console logs
@@ -210,7 +215,8 @@ LOGGING = {
         # Custom logger for `university` app
         "university": {
             "handlers": ["university_file"],  # Logs saved to university.log
-            "level": "INFO",
+            # "level": "INFO",
+            "level": "DEBUG",
             "propagate": False,
         },
         "departments": {
