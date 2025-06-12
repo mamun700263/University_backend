@@ -1,8 +1,11 @@
 from django.db import models
 from django.utils import timezone
 import logging
+from django.core.validators import MinLengthValidator
+from common.validators.user_validators import validate_not_future_date
 
-# in university/models.py
+from django.core.exceptions import ValidationError
+
 # import logging
 logger = logging.getLogger("university.models")
 
@@ -17,13 +20,18 @@ class University(models.Model):
 
     name = models.CharField(
         max_length=100,
+        validators=[MinLengthValidator(10)],
         unique=True
+        #must contain "university"
     )
-    starting_date = models.DateTimeField(auto_now_add=True)
     established_date = models.DateField(
         blank=False,
-        null=False
+        null=False,
+        validators=[validate_not_future_date],
     )
+    
+    
+    starting_date = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -35,6 +43,7 @@ class University(models.Model):
         return self.name  # Keep __str__ clean — don't log here
 
     def save(self, *args, **kwargs):
+            
         is_new = self.pk is None
         super().save(*args, **kwargs)
 
