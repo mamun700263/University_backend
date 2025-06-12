@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "Departments",
     "university",
     "batch",
+    "common",
     #3###
     "drf_spectacular",
 ]
