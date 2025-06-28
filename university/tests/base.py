@@ -15,8 +15,8 @@ class BaseUniversityTest(TestCase):
     def setUp(self):
         self.university = University.objects.create(
             name="Test University",
-            starting_date=date(2024, 9, 1),
-            established_date=timezone.now().date(),
+            starting_date=timezone.now().date(),
+            established_date=date(2024, 9, 1),
             updated_at=timezone.now(),
         )
         logger.info("🧪 [%s] University test instance created: %s", self.__class__.__name__, self.university.name)
