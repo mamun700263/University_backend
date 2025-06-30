@@ -61,6 +61,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 
 ROOT_URLCONF = "University_backend.urls"
@@ -208,6 +211,15 @@ LOGGING = {
             "filename": os.path.join(LOG_DIR, "batch.log"),
             "formatter": "default",
         },
+        "account_file": {
+            # "level": "INFO",
+            # "level": "WARNING",
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "account.log"),
+            "formatter": "default",
+        },
+
     },
 
     # === ROOT LOGGER ===
@@ -224,6 +236,12 @@ LOGGING = {
             "handlers": ["console"],  # Show Django's logs in console only
             "level": "INFO",  # Display INFO and above
             "propagate": False,  # Don’t bubble logs up to root logger again
+        },
+        "account": {
+        "handlers": ["account_file"],
+        # "level": "INFO",
+        "level": "DEBUG",
+        "propagate": False,
         },
 
         # Custom logger for `university` app
