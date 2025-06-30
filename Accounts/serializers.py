@@ -1,6 +1,7 @@
+import logging
 from django.contrib.auth.models import User
 from rest_framework import serializers
-
+logger = logging.getLogger("account.serializer")
 
 from .models import (
     Account,
@@ -30,6 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if data["password"] != data["confirm_password"]:
+            logger.error(f"password miss match {data["password"]} != {data["confirm_password"]}")
             raise serializers.ValidationError(
                 {"confirm_password": "Passwords do not match."}
             )
@@ -45,7 +47,7 @@ class UserSerializer(serializers.ModelSerializer):
             last_name=validated_data["last_name"],
         )
         user.set_password(validated_data["password"])
-        user.is_active = False  # Default inactive status
+        user.is_active = True
         user.save()
         return user
 
