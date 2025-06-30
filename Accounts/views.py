@@ -1,12 +1,14 @@
+import logging
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
+from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-
+logger = logging.getLogger("account.views")
 
 from .models import (
     Account,
@@ -51,42 +53,35 @@ class AuthorityAccountViewSet(ModelViewSet):
     queryset = AuthorityAccount.objects.all()
     serializer_class = AuthorityAccountSerializer
 
-
 class UserLoginApiView(APIView):
-    authentication_classes = []  # Disable default authentication
-    permission_classes = [AllowAny]  # Allow access to anyone
+    authentication_classes = []
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
-
+        
         if serializer.is_valid():
             username = serializer.validated_data["username"]
             password = serializer.validated_data["password"]
+            logger.debug(f"Attempt login with username: {username}")
 
-            # Debugging: Check validated data
-            print("Validated Data:", serializer.validated_data)
+            # user = authenticate(request, username=username, password=password)
+            user = authenticate(request, email=username, password=password)
 
-            # Authenticate the user
-            user = authenticate(username=username, password=password)
-
-            # Debugging: Check authentication result
             if user:
-                print("Authenticated User:", user)
-                # Create or get the token for the user
+                logger.info(f"Authenticated User: {user}")
                 token, created = Token.objects.get_or_create(user=user)
-                auth_login(request, user)  # Log the user in
+                auth_login(request, user)
                 return Response(
                     {"token": token.key, "user_id": user.id},
                     status=status.HTTP_200_OK
                 )
             else:
-                print("Authentication failed for user:", username)
+                logger.debug(f"Authentication failed for user: {username}")
                 return Response(
                     {"error": "Invalid username or password"},
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
         else:
-            # Debugging: Log serializer errors
-            print("Serializer Errors:", serializer.errors)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f"Login Serializer Errors: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
