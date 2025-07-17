@@ -1,6 +1,7 @@
 import uuid
 
 from django.contrib.auth.models import User
+from .base_user import UniUser
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -11,7 +12,7 @@ class Account(models.Model):
     Base Account class for all user accounts.
     """
     user = models.OneToOneField(
-        User,
+        UniUser,
         on_delete=models.CASCADE,
         related_name="account"
         )
@@ -52,12 +53,12 @@ class Account(models.Model):
     def generate_unique_id(self, prefix='', suffix=''):
         return f"{prefix}{uuid.uuid4().hex[:8].upper()}"
 
-    @staticmethod
-    def zero_str(count):
-        if 10 < count < 100:
-            return f'0{count}'
-        elif count < 10:
-            return f'00{count}'
-        else:
-            return str(count)
+
+def zero_str(count):
+    if 10 < count < 100:
+        return f'0{count}'
+    elif count < 10:
+        return f'00{count}'
+    else:
+        return str(count)
 

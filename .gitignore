@@ -1,4 +1,5 @@
 plane.txt
+plan/
 # Python related
 *.pyc
 *.pyo
