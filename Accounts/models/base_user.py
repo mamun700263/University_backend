@@ -36,7 +36,7 @@ class UniUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        return f"{self.full_name} <{self.email}>"
+        return f"{self.full_name} {self.email}"
 
     def has_role(self, *roles):
         return self.role in roles

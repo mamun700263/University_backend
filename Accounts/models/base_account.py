@@ -1,6 +1,5 @@
 import uuid
 
-from django.contrib.auth.models import User
 from .base_user import UniUser
 from django.core.validators import RegexValidator
 from django.db import models
@@ -43,7 +42,7 @@ class Account(models.Model):
     )
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
 
     def save(self, *args, **kwargs):
         if not self.unique_id:

@@ -9,7 +9,7 @@ from .models import (
     TeacherAccount
     )
 
-
+admin.site.register(UniUser)
 admin.site.register(StudentAccount)
 admin.site.register(TeacherAccount)
 admin.site.register(AuthorityAccount)

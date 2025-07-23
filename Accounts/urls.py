@@ -8,7 +8,8 @@ from .views import (
     StaffAccountViewSet,
     StudentAccountViewSet,
     TeacherAccountViewSet,
-    UserLoginApiView
+    UserLoginApiView,
+    LogoutView,
     )
 
 
@@ -23,4 +24,5 @@ router.register(r"authorities", AuthorityAccountViewSet)
 urlpatterns = [
     path("", include(router.urls)),
     path("login/", UserLoginApiView.as_view(), name="login"),
+    path("logout/",LogoutView.as_view(),name="logout"),
 ]

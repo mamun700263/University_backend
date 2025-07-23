@@ -1,9 +1,9 @@
 import logging
-from django.contrib.auth.models import User
 from rest_framework import serializers
 logger = logging.getLogger("account.serializer")
 
 from .models import (
+    UniUser,
     Account,
     AuthorityAccount,
     StaffAccount,
@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
+        model = UniUser
         fields = [
             "id",
             "username",
@@ -31,7 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if data["password"] != data["confirm_password"]:
-            logger.error(f"password miss match {data["password"]} != {data["confirm_password"]}")
+            logger.error(f'password miss match {data["password"]} != {data["confirm_password"]}')
             raise serializers.ValidationError(
                 {"confirm_password": "Passwords do not match."}
             )
@@ -39,13 +39,16 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop("confirm_password")
-        # Remove confirm_password after validation
-        user = User.objects.create(
-            username=validated_data["username"],
+        full_name = f"{validated_data.get('first_name','')} {validated_data.get('last_name','')}".strip()
+        
+        user = UniUser.objects.create(
             email=validated_data["email"],
-            first_name=validated_data["first_name"],
-            last_name=validated_data["last_name"],
+            first_name=validated_data.get("first_name", ""),
+            last_name=validated_data.get("last_name", ""),
+            full_name=full_name,
+            role=validated_data.get("role", UniUser.Roles.STUDENT),
         )
+        
         user.set_password(validated_data["password"])
         user.is_active = True
         user.save()
@@ -107,12 +110,14 @@ class StaffAccountSerializer(AccountSerializer):
         fields = AccountSerializer.Meta.fields
 
 
+
 class AuthorityAccountSerializer(AccountSerializer):
     class Meta(AccountSerializer.Meta):
         model = AuthorityAccount
         fields = AccountSerializer.Meta.fields
 
 
+
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(required=True)
+    email = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
