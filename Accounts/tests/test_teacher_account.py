@@ -6,7 +6,7 @@ from datetime import date
 
 class TestTeacherAccount(TestCase, AccountTestMixin):
     def setUp(self):
-        self.user = self.create_user("teacher1")
+        self.user = self.create_user("teacher1@x.com")
         self.university = self.create_university()
         self.department = self.create_department(self.university,"Electricla Engineerign",'EEE')
         self.teacher = TeacherAccount.objects.create(
