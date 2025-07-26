@@ -5,7 +5,7 @@ from datetime import date
 
 class TestStudentAccount(TestCase, AccountTestMixin):
     def setUp(self):
-        self.user = self.create_user(username="student1")
+        self.user = self.create_user(email="student1@x.com")
         self.university = self.create_university(name='mamun University')
         self.department = self.create_department(university=self.university)
         self.batch = self.create_batch(self.department, total_students=5)
