@@ -1,4 +1,3 @@
-import uuid
 from .base_account import Account, zero_str
 
 from django.db import models
@@ -22,6 +21,6 @@ class StudentAccount(Account):
         batch_name = self.batch.short_name
         id = f'ST{batch_name}{count}'
         return id
+
     def __str__(self):
         return "  "
-

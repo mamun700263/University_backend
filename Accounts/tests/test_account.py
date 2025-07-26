@@ -1,6 +1,6 @@
 from django.test import TestCase
 from Accounts.models import Account
-from .mixins import AccountTestMixin
+from .account_mixins import AccountTestMixin
 from datetime import date
 
 class TestAccount(TestCase, AccountTestMixin):

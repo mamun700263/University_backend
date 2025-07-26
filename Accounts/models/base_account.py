@@ -5,7 +5,6 @@ from django.core.validators import RegexValidator
 from django.db import models
 
 
-
 class Account(models.Model):
     """
     Base Account class for all user accounts.
@@ -38,7 +37,6 @@ class Account(models.Model):
         blank=True,
         null=True,
         default="https://i.imgur.com/placeholder.png",
-        # Replace with a valid placeholder URL
     )
 
     def __str__(self):
@@ -60,4 +58,3 @@ def zero_str(count):
         return f'00{count}'
     else:
         return str(count)
-

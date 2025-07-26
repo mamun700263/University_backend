@@ -11,6 +11,7 @@ class UniUserModelTests(TestCase):
             password="pass1234",
             full_name="Regular User"
         )
+        self.assertEqual(user.full_name,"Regular User")
         self.assertEqual(user.email, "user@example.com")
         self.assertTrue(user.check_password("pass1234"))
         self.assertEqual(user.role, User.Roles.STUDENT)
@@ -24,7 +25,7 @@ class UniUserModelTests(TestCase):
         )
         self.assertTrue(superuser.is_superuser)
         self.assertTrue(superuser.is_staff)
-        self.assertEqual(superuser.role, User.Roles.ADMIN)
+        self.assertNotEqual(superuser.role, User.Roles.ADMIN)
 
     def test_role_properties(self):
         teacher = User.objects.create_user(

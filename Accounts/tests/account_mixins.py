@@ -5,14 +5,31 @@ from batch.models import Batch
 from university.models import University
 
 class AccountTestMixin:
-    def create_user(self, username="testuser", password="strongpass123"):
-        return User.objects.create_user(username=username, password=password)
-    def create_university(self,name='Test University',established_date = date(2000,1,2)):
+
+    def create_user(
+            self,
+            username="testuser@test.com",
+            password="strongpass123"
+            ):
+        return User.objects.create_user(
+            username=username,
+            password=password
+            )
+    
+    def create_university(self,
+        name='Test University',
+        established_date = date(2000,1,2)
+        ):
         return University.objects.create(
             name = name,
             established_date= established_date
         )
-    def create_department(self,university,department_name = 'Computer Science', short_name="CSE"):
+    
+    def create_department(self,
+        university,
+        department_name = 'Computer Science',
+        short_name="CSE"
+        ):
         return Department.objects.create(
             short_name=short_name,
             name = department_name,
@@ -26,4 +43,3 @@ class AccountTestMixin:
             batch_number=1,
             start_date = date(2025,1,1)
         )
-

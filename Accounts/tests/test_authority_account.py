@@ -2,7 +2,7 @@
 
 from django.test import TestCase
 from Accounts.models import AuthorityAccount
-from .mixins import AccountTestMixin
+from .account_mixins import AccountTestMixin
 from datetime import date
 
 class TestAuthorityAccount(TestCase, AccountTestMixin):
