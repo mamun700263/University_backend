@@ -1,5 +1,6 @@
-from django.contrib.auth.models import User
 from datetime import date
+
+from ..models.base_user import UniUser
 from Departments.models import Department
 from batch.models import Batch
 from university.models import University
@@ -8,11 +9,11 @@ class AccountTestMixin:
 
     def create_user(
             self,
-            username="testuser@test.com",
+            email="testuser@test.com",
             password="strongpass123"
             ):
-        return User.objects.create_user(
-            username=username,
+        return UniUser.objects.create_user(
+            email=email,
             password=password
             )
     
