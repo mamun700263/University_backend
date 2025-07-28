@@ -50,11 +50,3 @@ class Account(models.Model):
     def generate_unique_id(self, prefix='', suffix=''):
         return f"{prefix}{uuid.uuid4().hex[:8].upper()}"
 
-
-def zero_str(count):
-    if 10 < count < 100:
-        return f'0{count}'
-    elif count < 10:
-        return f'00{count}'
-    else:
-        return str(count)

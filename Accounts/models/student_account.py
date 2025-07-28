@@ -1,6 +1,8 @@
-from .base_account import Account, zero_str
-
 from django.db import models
+
+from common.functions import zero_str
+from .base_account import Account
+
 
 
 class StudentAccount(Account):

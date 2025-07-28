@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
 
-from ..usermanagers.base_user_manager import CustomUserManager
+from Accounts.usermanagers.base_user_manager import CustomUserManager
 
 
 class UniUser(AbstractUser):

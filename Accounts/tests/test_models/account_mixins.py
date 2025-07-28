@@ -1,6 +1,6 @@
 from datetime import date
 
-from ..models.base_user import UniUser
+from Accounts.models.base_user import UniUser
 from Departments.models import Department
 from batch.models import Batch
 from university.models import University

@@ -6,7 +6,6 @@ from datetime import date
 class TestAccount(TestCase, AccountTestMixin):
     def setUp(self):
         self.user = self.create_user("baseuser@x.com")
-
         self.account = Account.objects.create(
             user=self.user,
             date_of_birth=date(2003, 8, 6),
