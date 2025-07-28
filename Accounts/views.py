@@ -90,17 +90,16 @@ class UserLoginApiView(APIView):
 
 
 class LogoutView(APIView):
-
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
         try:
             refresh_token = request.data["refresh"]
             token = RefreshToken(refresh_token)
+
             token.blacklist()
-            return Response(
-                {"detail": "Logout successful"}, status=status.HTTP_205_RESET_CONTENT
-            )
+            return Response({"detail": "Logout successful"}, status=status.HTTP_205_RESET_CONTENT)
+
         except Exception as e:
             return Response(
                 {"error": "Invalid or missing refresh token"},
