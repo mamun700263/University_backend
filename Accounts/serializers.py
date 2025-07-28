@@ -67,23 +67,17 @@ class AccountSerializer(serializers.ModelSerializer):
             "unique_id",
             "bio",
             "mobile",
-            "profile_picture",
         ]
         read_only_fields = ["unique_id"]
 
     def create(self, validated_data):
-        # Extract user data
         user_data = validated_data.pop("user")
-
-        # Use UserSerializer to validate and create the user
         user_serializer = UserSerializer(data=user_data)
+
         if user_serializer.is_valid(raise_exception=True):
             user = user_serializer.save()
 
-        # Add the created user to validated_data
         validated_data["user"] = user
-
-        # Create and return the Account object
         return super().create(validated_data)
 
 
@@ -115,7 +109,6 @@ class AuthorityAccountSerializer(AccountSerializer):
     class Meta(AccountSerializer.Meta):
         model = AuthorityAccount
         fields = AccountSerializer.Meta.fields
-
 
 
 class LoginSerializer(serializers.Serializer):

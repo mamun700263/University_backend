@@ -2,6 +2,7 @@ import uuid
 from .base_account import Account
 from django.db import models
 
+
 class TeacherAccount(Account, models.Model):
     """
     Teacher account with a unique ID format.
@@ -17,4 +18,3 @@ class TeacherAccount(Account, models.Model):
 
     def generate_unique_id(self):
         return f"TE{self.department.short_name}{uuid.uuid4().hex[:4].upper()}"
-

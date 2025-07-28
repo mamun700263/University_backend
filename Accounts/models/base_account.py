@@ -5,7 +5,6 @@ from django.core.validators import RegexValidator
 from django.db import models
 
 
-
 class Account(models.Model):
     """
     Base Account class for all user accounts.
@@ -38,7 +37,6 @@ class Account(models.Model):
         blank=True,
         null=True,
         default="https://i.imgur.com/placeholder.png",
-        # Replace with a valid placeholder URL
     )
 
     def __str__(self):
@@ -51,13 +49,4 @@ class Account(models.Model):
 
     def generate_unique_id(self, prefix='', suffix=''):
         return f"{prefix}{uuid.uuid4().hex[:8].upper()}"
-
-
-def zero_str(count):
-    if 10 < count < 100:
-        return f'0{count}'
-    elif count < 10:
-        return f'00{count}'
-    else:
-        return str(count)
 

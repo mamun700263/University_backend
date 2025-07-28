@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import date
 from Departments.models import Department
-from Accounts.models import zero_str
+from common.functions import zero_str
 import logging
 
 logger = logging.getLogger("batch.model")

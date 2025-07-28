@@ -3,13 +3,12 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
 
-from ..usermanagers.base_user_manager import CustomUserManager
+from Accounts.usermanagers.base_user_manager import CustomUserManager
 
 
 class UniUser(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
-    
     full_name = models.CharField(max_length=255)
     phone = models.CharField(
         max_length=20, blank=True, null=True,
@@ -26,13 +25,10 @@ class UniUser(AbstractUser):
     role = models.CharField(
         max_length=20, choices=Roles.choices, default=Roles.STUDENT
     )
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-
     objects = CustomUserManager()
 
     def __str__(self):

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class LoginLog(models.Model):
     user = models.ForeignKey('UniUser', on_delete=models.CASCADE)
     ip_address = models.GenericIPAddressField()
