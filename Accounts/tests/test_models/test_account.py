@@ -3,15 +3,10 @@ from Accounts.models import Account
 from .account_mixins import AccountTestMixin
 from datetime import date
 
-class TestAccount(TestCase, AccountTestMixin):
+class TestAccount(AccountTestMixin):
     def setUp(self):
         self.user = self.create_user("baseuser@x.com")
-        self.account = Account.objects.create(
-            user=self.user,
-            date_of_birth=date(2003, 8, 6),
-            mobile="01712345678",
-            bio="This is a test bio."
-        )
+        self.account = self.create_account(self.user,"2002-12-12","01712345678")
 
     def test_account_str(self):
         self.assertEqual(str(self.account), "baseuser@x.com")

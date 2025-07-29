@@ -3,7 +3,7 @@ from Accounts.models import StudentAccount
 from .account_mixins import AccountTestMixin
 from datetime import date
 
-class TestStudentAccount(TestCase, AccountTestMixin):
+class TestStudentAccount(AccountTestMixin):
     def setUp(self):
         self.user = self.create_user(email="student1@x.com")
         self.university = self.create_university(name='mamun University')

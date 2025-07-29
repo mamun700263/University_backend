@@ -1,46 +1,31 @@
-from datetime import date
+from common.tests.models import UniversityTestBase
+from Accounts.models import (
+    StaffAccount,
+    StudentAccount,
+    TeacherAccount,
+    AuthorityAccount
+    )
 
-from Accounts.models.base_user import UniUser
-from Departments.models import Department
-from batch.models import Batch
-from university.models import University
 
-class AccountTestMixin:
+class AccountTestMixin(UniversityTestBase):
+    def create_student_account(self,account=None,batch=None):
+        if account is None:
+            self.user = self.create_user(email="teststudent@test.com")
+            account = self.create_account(user=self.user)
+        
+        if batch is None:
+            batch = self.create_batch()
 
-    def create_user(
-            self,
-            email="testuser@test.com",
-            password="strongpass123"
-            ):
-        return UniUser.objects.create_user(
-            email=email,
-            password=password
-            )
-    
-    def create_university(self,
-        name='Test University',
-        established_date = date(2000,1,2)
-        ):
-        return University.objects.create(
-            name = name,
-            established_date= established_date
+        return StudentAccount.objects.create(
+            account=account,
+            batch = batch,
         )
     
-    def create_department(self,
-        university,
-        department_name = 'Computer Science',
-        short_name="CSE"
-        ):
-        return Department.objects.create(
-            short_name=short_name,
-            name = department_name,
-            university = university
+    def create_teacher_account(self,account=None):
+            
+            return TeacherAccount.objects.create(
+            account = account,
+            department=self.department,
+            Department_head=True
         )
 
-    def create_batch(self,department, total_students=0):
-        return Batch.objects.create(
-            department = department,
-            total_students=total_students,
-            batch_number=1,
-            start_date = date(2025,1,1)
-        )

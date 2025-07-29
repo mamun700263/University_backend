@@ -13,8 +13,6 @@ class UniversityModelTest(BaseUniversityTest):
     Test suite for University model — field validations, constraints, and behaviors.
     """
 
-    # --- BASIC FIELD BEHAVIOR ---
-
     def test_name_value_is_saved_correctly(self):
         logger.debug("[T01] Verifying university.name is saved correctly...")
         self.assertEqual(self.university.name, "Test University")

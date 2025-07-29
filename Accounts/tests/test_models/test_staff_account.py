@@ -3,7 +3,7 @@ from Accounts.models import StaffAccount
 from .account_mixins import AccountTestMixin
 from datetime import date
 
-class TestAuthorityAccount(TestCase, AccountTestMixin):
+class TestAuthorityAccount(AccountTestMixin):
     def setUp(self):
         self.user = self.create_user("staff@x.com")
         self.authority = StaffAccount.objects.create(

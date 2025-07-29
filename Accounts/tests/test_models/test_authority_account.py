@@ -5,7 +5,7 @@ from Accounts.models import AuthorityAccount
 from .account_mixins import AccountTestMixin
 from datetime import date
 
-class TestAuthorityAccount(TestCase, AccountTestMixin):
+class TestAuthorityAccount(AccountTestMixin):
     def setUp(self):
         self.user = self.create_user("authority1")
         self.authority = AuthorityAccount.objects.create(

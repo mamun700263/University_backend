@@ -3,7 +3,7 @@ from .base_account import Account
 from django.db import models
 
 
-class TeacherAccount(Account, models.Model):
+class TeacherAccount(Account):
     """
     Teacher account with a unique ID format.
     """

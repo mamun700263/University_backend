@@ -4,7 +4,7 @@ from Accounts.models import TeacherAccount
 from .account_mixins import AccountTestMixin
 from datetime import date
 
-class TestTeacherAccount(TestCase, AccountTestMixin):
+class TestTeacherAccount(AccountTestMixin):
     def setUp(self):
         self.user = self.create_user("teacher1@x.com")
         self.university = self.create_university()
