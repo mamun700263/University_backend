@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "university",
     "batch",
     "common",
+    'courses',
     ####
     "drf_spectacular",
 ]
