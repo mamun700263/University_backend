@@ -1,20 +1,23 @@
-from django.contrib.auth.models import User
+import logging
 from rest_framework import serializers
+logger = logging.getLogger("account.serializer")
 
 from .models import (
+    UniUser,
     Account,
     AuthorityAccount,
     StaffAccount,
     StudentAccount,
-    TeacherAccount,
-)
+    TeacherAccount
+    )
+
 
 
 class UserSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
+        model = UniUser
         fields = [
             "id",
             "username",
@@ -28,6 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if data["password"] != data["confirm_password"]:
+            logger.error(f'password miss match {data["password"]} != {data["confirm_password"]}')
             raise serializers.ValidationError(
                 {"confirm_password": "Passwords do not match."}
             )
@@ -35,15 +39,18 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop("confirm_password")
-        # Remove confirm_password after validation
-        user = User.objects.create(
-            username=validated_data["username"],
+        full_name = f"{validated_data.get('first_name','')} {validated_data.get('last_name','')}".strip()
+        
+        user = UniUser.objects.create(
             email=validated_data["email"],
-            first_name=validated_data["first_name"],
-            last_name=validated_data["last_name"],
+            first_name=validated_data.get("first_name", ""),
+            last_name=validated_data.get("last_name", ""),
+            full_name=full_name,
+            role=validated_data.get("role", UniUser.Roles.STUDENT),
         )
+        
         user.set_password(validated_data["password"])
-        user.is_active = False  # Default inactive status
+        user.is_active = True
         user.save()
         return user
 
@@ -60,23 +67,17 @@ class AccountSerializer(serializers.ModelSerializer):
             "unique_id",
             "bio",
             "mobile",
-            "profile_picture",
         ]
         read_only_fields = ["unique_id"]
 
     def create(self, validated_data):
-        # Extract user data
         user_data = validated_data.pop("user")
-
-        # Use UserSerializer to validate and create the user
         user_serializer = UserSerializer(data=user_data)
+
         if user_serializer.is_valid(raise_exception=True):
             user = user_serializer.save()
 
-        # Add the created user to validated_data
         validated_data["user"] = user
-
-        # Create and return the Account object
         return super().create(validated_data)
 
 
@@ -103,6 +104,7 @@ class StaffAccountSerializer(AccountSerializer):
         fields = AccountSerializer.Meta.fields
 
 
+
 class AuthorityAccountSerializer(AccountSerializer):
     class Meta(AccountSerializer.Meta):
         model = AuthorityAccount
@@ -110,5 +112,5 @@ class AuthorityAccountSerializer(AccountSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(required=True)
+    email = serializers.CharField(required=True)
     password = serializers.CharField(required=True)

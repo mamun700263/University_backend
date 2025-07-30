@@ -1,7 +1,10 @@
-from django.urls import path
-from .views import UniversityAPIView
-from .views import UniversityModifyView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import UniversityViewSet
+
+router = DefaultRouter()
+router.register(r'', UniversityViewSet, basename='university')
+
 urlpatterns = [
-    path('universiy_api/', UniversityAPIView.as_view(), name='university'),
-    path('universiy_modify_api/<int:id>/', UniversityModifyView.as_view(), name='university_modify_api'),
+    path('', include(router.urls)),
 ]

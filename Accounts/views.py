@@ -1,10 +1,22 @@
-from rest_framework.viewsets import ModelViewSet
+import logging
+
+from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth import login as auth_login
+from rest_framework import status
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework_simplejwt.tokens import RefreshToken
+
+logger = logging.getLogger("account.views")
+
+from django.contrib.auth import authenticate
+from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
-from rest_framework import status
-from django.contrib.auth import authenticate, login as auth_login
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import (
     Account,
@@ -16,14 +28,13 @@ from .models import (
 from .serializers import (
     AccountSerializer,
     AuthorityAccountSerializer,
+    LoginSerializer,
     StaffAccountSerializer,
     StudentAccountSerializer,
     TeacherAccountSerializer,
-    LoginSerializer,
 )
 
 
-# Account ViewSets
 class AccountViewSet(ModelViewSet):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
@@ -50,39 +61,48 @@ class AuthorityAccountViewSet(ModelViewSet):
 
 
 class UserLoginApiView(APIView):
-    authentication_classes = []  # Disable default authentication
-    permission_classes = [AllowAny]  # Allow access to anyone
+    permission_classes = [AllowAny]
+
+    @staticmethod
+    def get_tokens_for_user(user):
+        refresh = RefreshToken.for_user(user)
+        return {
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        }
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-        if serializer.is_valid():
-            username = serializer.validated_data["username"]
-            password = serializer.validated_data["password"]
+        email = serializer.validated_data["email"]
+        password = serializer.validated_data["password"]
 
-            # Debugging: Check validated data
-            print("Validated Data:", serializer.validated_data)
+        user = authenticate(request, email=email, password=password)
 
-            # Authenticate the user
-            user = authenticate(username=username, password=password)
+        if not user:
+            return Response(
+                {"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
+            )
 
-            # Debugging: Check authentication result
-            if user:
-                print("Authenticated User:", user)
-                # Create or get the token for the user
-                token, created = Token.objects.get_or_create(user=user)
-                auth_login(request, user)  # Log the user in
-                return Response(
-                    {"token": token.key, "user_id": user.id}, status=status.HTTP_200_OK
-                )
-            else:
-                print("Authentication failed for user:", username)
-                return Response(
-                    {"error": "Invalid username or password"},
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
-        else:
-            # Debugging: Log serializer errors
-            print("Serializer Errors:", serializer.errors)
+        tokens = self.get_tokens_for_user(user)
+        return Response(tokens, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(
+                {"detail": "Logout successful"}, status=status.HTTP_205_RESET_CONTENT
+            )
+        except Exception as e:
+            return Response(
+                {"error": "Invalid or missing refresh token"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )

@@ -1,27 +1,20 @@
-"""
-URL configuration for University_backend project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path,include
-from Accounts import urls as account_url
-from Departments import urls as  deparment_url
-from university import urls as university_url
+from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/',include(account_url)),
-    path('departments/',include(deparment_url)),
-    path('university/',include(university_url)),
+
+    # 🔗 API Route Groups
+    path('api/', include([
+        path('accounts/', include('Accounts.urls')),        # /api/accounts/
+        path('universities/', include('university.urls')),  # /api/universities/
+        path('departments/', include('Departments.urls')),  # /api/departments/
+        path('batches/', include('batch.urls')),            # /api/batches/
+        # 👇 Add more modules here as needed
+    ])),
+
+    # 📄 API Schema + Swagger Docs
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema')),
 ]

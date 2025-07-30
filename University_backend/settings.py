@@ -10,8 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
+from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,89 +24,128 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+j3kwq9jqd!zb00axp1v&310-w9*fz+%!o=!tm$856x6^xc+1s'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'Accounts.UniUser'
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-#apps downloded
-    'rest_framework', 
-    'rest_framework.authtoken',
-#apps created by md abdullah all mamun
-    'Accounts',
-    'Departments',
-    'university',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    #jwt token
+    "rest_framework_simplejwt.token_blacklist",
+    # apps downloded
+    "rest_framework",
+    "rest_framework.authtoken",
+    # apps created by md abdullah all mamun
+    "Accounts",
+    "Departments",
+    "university",
+    "batch",
+    "common",
+    ####
+    "drf_spectacular",
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ROTATE_REFRESH_TOKENS": True,
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+    "TOKEN_BLACKLIST_ENABLED": True,
+}
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
-ROOT_URLCONF = 'University_backend.urls'
+
+ROOT_URLCONF = "University_backend.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'University_backend.wsgi.application'
+WSGI_APPLICATION = "University_backend.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+#################redis###########################
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",  # DB 1 in Redis
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
 
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+#################redis###########################
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -110,9 +153,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -122,9 +165,123 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+############################################################
+import os
+
+# Define directory for log files
+# Ensures logs are organized under BASE_DIR/logs/
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+
+# Create the directory if it doesn't exist
+os.makedirs(LOG_DIR, exist_ok=True)
+
+LOGGING = {
+    # Required setting: must always be 1
+    "version": 1,
+
+    # If True, disables all existing loggers. We set to False so Django and third-party logging still works
+    "disable_existing_loggers": False,
+
+    # === FORMATTERS ===
+    # Formatters define HOW the logs will look
+    "formatters": {
+        "default": {
+            "format": "[{asctime}] {levelname} [{name}] {message}",
+            "style": "{",  # Enables `{}` formatting instead of default `%`
+        },
+    },
+
+    # === HANDLERS ===
+    # Handlers define WHERE the logs go (console, file, etc.)
+    "handlers": {
+        "console": {
+            "level": "DEBUG",  # Lowest level to display in console (during dev)
+            "class": "logging.StreamHandler",  # Sends logs to standard output (terminal)
+            "formatter": "default",  # Use the 'default' formatter defined above
+        },
+        "university_file": {
+            "level": "INFO",  # Only INFO and above will be written to file
+            "level": "DEBUG",
+            "class": "logging.FileHandler",  # Writes logs to file
+            "filename": os.path.join(LOG_DIR, "university.log"),  # Target log file
+            "formatter": "default",  # Use the same format as console logs
+        },
+
+        "departments_file": {
+            # "level": "INFO",
+            # "level": "WARNING",
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "departments.log"),
+            "formatter": "default",
+        },
+        "batch_file": {
+            # "level": "INFO",
+            # "level": "WARNING",
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "batch.log"),
+            "formatter": "default",
+        },
+        "account_file": {
+            # "level": "INFO",
+            # "level": "WARNING",
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "account.log"),
+            "formatter": "default",
+        },
+
+    },
+
+    # === ROOT LOGGER ===
+    # The base logger used when no specific logger name is given
+    "root": {
+        "handlers": ["console"],  # Send root logs to terminal
+        "level": "WARNING",  # Only WARNING and above (ERROR, CRITICAL) will show up
+    },
+
+    # === NAMED LOGGERS ===
+    # Define loggers per Django app/module
+    "loggers": {
+        "django": {
+            "handlers": ["console"],  # Show Django's logs in console only
+            "level": "INFO",  # Display INFO and above
+            "propagate": False,  # Don’t bubble logs up to root logger again
+        },
+        "account": {
+        "handlers": ["account_file"],
+        # "level": "INFO",
+        "level": "DEBUG",
+        "propagate": False,
+        },
+
+        # Custom logger for `university` app
+        "university": {
+            "handlers": ["university_file"],  # Logs saved to university.log
+            # "level": "INFO",
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        "departments": {
+        "handlers": ["departments_file"],
+        # "level": "INFO",
+        "level": "DEBUG",
+        "propagate": False,
+        },
+        "batch": {
+        "handlers": ["batch_file"],
+        # "level": "INFO",
+        "level": "DEBUG",
+        "propagate": False,
+        },
+    },
+}
