@@ -55,11 +55,11 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1",
     "http://localhost:8000",
     "https://university-backend-3tqs.onrender.com",
-    "44.226.145.213",
-    "54.187.200.255",
-    "34.213.214.55",
-    "35.164.95.156",
-    "44.230.95.183",
+    "https://44.226.145.213",
+    "https://54.187.200.255",
+    "https://34.213.214.55",
+    "https://35.164.95.156",
+    "https://44.230.95.183",
 ]
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
