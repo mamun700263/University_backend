@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1", 
     "localhost",
     "university-backend-3tqs.onrender.com",
+    ".onrender.com",
     "44.226.145.213",
     "54.187.200.255",
     "34.213.214.55",
@@ -40,9 +41,15 @@ ALLOWED_HOSTS = [
     "44.230.95.183",
     ]
 
-CSRF_COOKIE_SECURE = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+CSRF_COOKIE_HTTPONLY = False  
+SESSION_COOKIE_SAMESITE = "Lax"  
+CSRF_COOKIE_SAMESITE = "Lax"
+
 
 SECURE_HSTS_SECONDS = 3600
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -55,6 +62,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1",
     "http://localhost:8000",
     "https://university-backend-3tqs.onrender.com",
+    "https://*.onrender.com", 
     "https://44.226.145.213",
     "https://54.187.200.255",
     "https://34.213.214.55",
